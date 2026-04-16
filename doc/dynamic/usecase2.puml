@@ -5,7 +5,7 @@ actor user as u
 usecase "RegisterUser" as UC1
 usecase "Login" as UC2
 usecase "HomePage" as UC3
-usecase "SearchMovies" as UC4
+usecase "SearchMovie" as UC4
 usecase "SearchCategories" as UC5
 usecase "WatchedMovies" as UC6
 usecase "SavedMovies" as UC7
