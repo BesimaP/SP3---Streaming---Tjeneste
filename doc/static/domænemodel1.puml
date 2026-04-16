@@ -1,0 +1,29 @@
+@startuml
+!pragma layout smetana
+
+title Domain Model - Streaming Service
+
+abstract class Media
+class Movie
+class Series
+class Season
+class Episode
+class User
+class Administrator
+enum Category
+
+'Arv'
+Movie --|> Media
+Series --|> Media
+Administrator --|> User
+
+'Relationer'
+Series *-- Season
+Season *-- Episode
+
+Media -- Category : Hvert Media tilhører en Category
+
+User -- Media : watched
+User -- Media : saved
+
+@enduml
