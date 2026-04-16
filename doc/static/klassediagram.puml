@@ -1,80 +1,123 @@
 @startuml
 !pragma layout smetana
 
+title Class Diagram - Streaming Service
 
+' ===== Classes =====
 abstract class Media {
   - String title
   - int releaseYear
   - double rating
-  - Category category
+  - List<Category> categories
+  + String getTitle()
+  + int getReleaseYear()
+  + double getRating()
+  + void addCategory(Category c)
+  + void play()
 }
 
-class Movie
+class Movie {
+  - int duration
+  + int getDuration()
+  + void play()
+  + String toString()
+}
 
 class Series {
-  - List<Season>seasons
+  - List<Season> seasons
+  + List<Season> getSeasons()
+  + void addSeason(Season s)
+  + int getNumberOfSeasons()
+  + void play()
+  + String toString()
 }
 
 class Season {
-  - List<Episode>episodes
+  - int seasonNumber
+  - int year
+  - List<Episode> episodes
+  + int getSeasonNumber()
+  + List<Episode> getEpisodes()
+  + void addEpisode(Episode e)
+  + String toString()
 }
 
 class Episode {
+  - String title
   - int episodeNumber
+  - int duration
+  + String getTitle()
+  + int getEpisodeNumber()
+  + String toString()
+}
+
+enum Category {
+  CRIME
+  WAR
+  DRAMA
+  FAMILY
+  ROMANCE
+  SCI_FI
 }
 
 class User {
   - String username
   - String password
-  - List<Media>watched
-  - List<Media>saved
-
-  + addToWatched(media : Media)
-  + addToSaved(media : Media)
-  + removeFromSaved(media : Media)
+  - List<Media> watched
+  - List<Media> saved
+  + String getUsername()
+  + boolean checkLogin(String password)
+  + void addToWatched(Media m)
+  + void addToSaved(Media m)
+  + void removeFromSaved(Media m)
+  + List<Media> getWatched()
+  + List<Media> getSaved()
+  + String toString()
 }
 
-class Administrator
+class Administrator {
+  + void addMedia(Media m, List<Media> list)
+  + void removeMedia(Media m, List<Media> list)
+  + String toString()
+}
 
 class StreamingService {
-  + startSystem()
-  + registerUser()
-  + loginUser()
-  + findMedia()
+  - List<Media> mediaList
+  - List<User> userList
+  + void startSystem()
+  + void registerUser()
+  + void loginUser()
+  + void findMedia()
 }
 
+
+package "util"{
 class FileIO {
-  + loadUsers()
-  + saveUser()
+  + List<User> loadUsers()
+  + void saveUser(User u)
 }
 
 class TextUI {
-  + start()
-  + showMenu()
+  + void start()
+  + void showMenu()
+}
 }
 
-enum Category {
-  crime
-  war
-  drama
-  family
-  romance
-  sci-fi
-}
-
+'Inheritance
 Movie --|> Media
 Series --|> Media
 Administrator --|> User
 
+'Composition
 Series *-- Season
 Season *-- Episode
-Media --> Category
 
-User --> Media
-StreamingService --> User
-StreamingService --> Media
-
-FileIO --> User
-TextUI --> StreamingService
+'Associations
+Media -- Category
+User -- Media
+StreamingService -- User
+StreamingService -- Media
+FileIO -- User
+TextUI -- StreamingService
 
 @enduml

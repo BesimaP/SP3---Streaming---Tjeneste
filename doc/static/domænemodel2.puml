@@ -37,7 +37,7 @@ class Episode {
   - varighed: int
   + afspil(): void
 }
-
+'kan også være enum men så er den fast
 class Category {
   - navn: String
   - beskrivelse: String
