@@ -1,0 +1,80 @@
+@startuml
+!pragma layout smetana
+
+
+abstract class Media {
+  - String title
+  - int releaseYear
+  - double rating
+  - Category category
+}
+
+class Movie
+
+class Series {
+  - List<Season>seasons
+}
+
+class Season {
+  - List<Episode>episodes
+}
+
+class Episode {
+  - int episodeNumber
+}
+
+class User {
+  - String username
+  - String password
+  - List<Media>watched
+  - List<Media>saved
+
+  + addToWatched(media : Media)
+  + addToSaved(media : Media)
+  + removeFromSaved(media : Media)
+}
+
+class Administrator
+
+class StreamingService {
+  + startSystem()
+  + registerUser()
+  + loginUser()
+  + findMedia()
+}
+
+class FileIO {
+  + loadUsers()
+  + saveUser()
+}
+
+class TextUI {
+  + start()
+  + showMenu()
+}
+
+enum Category {
+  crime
+  war
+  drama
+  family
+  romance
+  sci-fi
+}
+
+Movie --|> Media
+Series --|> Media
+Administrator --|> User
+
+Series *-- Season
+Season *-- Episode
+Media --> Category
+
+User --> Media
+StreamingService --> User
+StreamingService --> Media
+
+FileIO --> User
+TextUI --> StreamingService
+
+@enduml
