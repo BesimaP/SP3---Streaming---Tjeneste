@@ -1,0 +1,20 @@
+@startuml
+!pragma layout smetana
+
+actor user as u
+
+usecase "StartSystem" as UC1
+usecase "RegisterUser" as UC2
+usecase "LoginUser" as UC3
+usecase "BrowseMedia" as UC4
+usecase "ManageLists" as UC5
+
+u --> UC1
+
+UC1 --> UC2
+UC1 --> UC3
+UC2 --> UC3
+UC3 --> UC4
+UC3 --> UC5
+
+@enduml

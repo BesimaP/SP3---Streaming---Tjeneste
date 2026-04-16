@@ -1,15 +1,90 @@
 @startuml
-'https://plantuml.com/sequence-diagram
+!pragma layout smetana
 
-autonumber
+title Domain Model - Streaming Service
 
-== Initialization ==
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+abstract class Media {
+  - titel: String
+  - udgivelsesår: int
+  - rating: double
+  - kategorier: List<Category>
+  + afspil(): void
+}
 
-== Repetition ==
+class Movie {
+  - varighed: int
+  - instruktør: String
+  - skuespillere: List<String>
+  + afspil(): void
+}
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+class Series {
+  - antalSæsoner: int
+  + getSæsoner(): List<Season>
+  + afspil(): void
+}
+
+class Season {
+  - sæsonNummer: int
+  - udgivelsesår: int
+  + getEpisoder(): List<Episode>
+}
+
+class Episode {
+  - episodeNummer: int
+  - titel: String
+  - varighed: int
+  + afspil(): void
+}
+
+class Category {
+  - navn: String
+  - beskrivelse: String
+  + getNavn(): String
+}
+
+class User {
+  - brugernavn: String
+  - password: String
+  - erBarn: boolean
+  - seteListe: List<Media>
+  - gemteListe: List<Media>
+  + logInd(): boolean
+  + søgFilm(): List<Media>
+}
+
+class Administrator {
+  + tilføjMedie(m: Media): void
+  + fjernMedie(m: Media): void
+  + tilføjKategori(k: Category): void
+  + fjernKategori(k: Category): void
+}
+
+'Denne klasse bliver nok vores main kinda? men tror vi skal bruge den
+class StreamingSystem {
+  - brugere: List<User>
+  - medier: List<Media>
+  - kategorier: List<Category>
+  + søgEfterFilm(titel: String): List<Media>
+  + søgKategori(navn: String): List<Media>
+}
+
+' ned arrv
+Media <|-- Movie
+Media <|-- Series
+User  <|-- Administrator
+
+' Compostion
+Series  *-- Season  : indeholder
+Season  *-- Episode : indeholder
+
+' asociationer
+Media           --> Category : tilhører
+User            --> Media    : saved
+User            --> Media    : watched
+StreamingSystem --> User     : administrerer
+StreamingSystem --> Media    : indeholder
+StreamingSystem --> Category : administrerer
+
 @enduml
