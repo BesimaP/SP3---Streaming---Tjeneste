@@ -90,6 +90,8 @@ class StreamingService {
   + void findMedia()
 }
 
+
+package "util"{
 class FileIO {
   + List<User> loadUsers()
   + void saveUser(User u)
@@ -98,6 +100,7 @@ class FileIO {
 class TextUI {
   + void start()
   + void showMenu()
+}
 }
 
 'Inheritance
