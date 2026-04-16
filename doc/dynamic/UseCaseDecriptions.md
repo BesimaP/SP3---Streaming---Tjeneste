@@ -48,23 +48,23 @@
 **Alternativt forløb:**
  ?
 
-## UC4 – SearchMovie
+## UC4 – SearchMedia
 
 **Aktør:** Bruger
 
 **Forudsætning:** Brugeren er logget ind
 
 **Hovedforløb:**
-1. Bruger vælger "søg efter film" i hovedmenuen
+1. Bruger vælger "søg efter medie" i hovedmenuen
 2. Systemet beder om søgetekst (title)
 3. Bruger indtaster søgetekst
 4. System viser matchende film
-5. Bruger kan vælge en film fra listen
+5. Bruger kan vælge et medie fra listen
 6. System viser filmmenu (afspil / gem)
 
 **Alternativt forløb:**
 
-1. Ingen film matcher søgning
+1. Intet medie matcher søgning
 2. System viser besked om ingen resultater
 
 ## UC5 – SearchCategories
