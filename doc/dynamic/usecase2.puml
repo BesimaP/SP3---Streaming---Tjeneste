@@ -1,0 +1,28 @@
+@startuml
+
+actor user as u
+
+usecase "RegisterUser" as UC1
+usecase "Login" as UC2
+usecase "HomePage" as UC3
+usecase "SearchMovies" as UC4
+usecase "SearchCategories" as UC5
+usecase "WatchedMovies" as UC6
+usecase "SavedMovies" as UC7
+usecase "PlayMovie" as UC8
+
+
+u --> UC1
+u --> UC2
+UC1 --> UC3
+UC2 --> UC3
+UC3 --> UC4
+UC3 --> UC5
+UC3 --> UC6
+UC3 --> UC7
+UC4 --> UC8
+UC5 --> UC8
+UC6 --> UC8
+UC7 --> UC8
+
+@enduml
