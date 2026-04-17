@@ -39,7 +39,7 @@ Episode:
 Systemklasser:
 - StreamingService (logik)
 - TextIU (Brugerinterface)
-- FileIO (Datahåndtering)
+- Util.FileIO (Datahåndtering)
 
 UC1: StartSystem
 •	Systemet starter og indlæser brugerdata fra fil
