@@ -8,7 +8,7 @@ abstract class Media {
   - String title
   - int releaseYear
   - double rating
-  - List<Category> categories
+  - ArrayList<Category> categories
   + String getTitle()
   + int getReleaseYear()
   + double getRating()
@@ -24,8 +24,8 @@ class Movie {
 }
 
 class Series {
-  - List<Season> seasons
-  + List<Season> getSeasons()
+  - ArrayList<Season> seasons
+  + ArrayList<Season> getSeasons()
   + void addSeason(Season s)
   + int getNumberOfSeasons()
   + void play()
@@ -35,9 +35,9 @@ class Series {
 class Season {
   - int seasonNumber
   - int year
-  - List<Episode> episodes
+  - ArrayList<Episode> episodes
   + int getSeasonNumber()
-  + List<Episode> getEpisodes()
+  + ArrayList<Episode> getEpisodes()
   + void addEpisode(Episode e)
   + String toString()
 }
@@ -63,27 +63,27 @@ enum Category {
 class User {
   - String username
   - String password
-  - List<Media> watched
-  - List<Media> saved
+  - ArrayList<Media> watched
+  - ArrayList<Media> saved
   + String getUsername()
   + boolean checkLogin(String password)
   + void addToWatched(Media m)
   + void addToSaved(Media m)
   + void removeFromSaved(Media m)
-  + List<Media> getWatched()
-  + List<Media> getSaved()
+  + ArrayList<Media> getWatched()
+  + ArrayList<Media> getSaved()
   + String toString()
 }
 
 class Administrator {
-  + void addMedia(Media m, List<Media> list)
-  + void removeMedia(Media m, List<Media> list)
+  + void addMedia(Media m, ArrayList<Media> list)
+  + void removeMedia(Media m, ArrayList<Media> list)
   + String toString()
 }
 
 class StreamingService {
-  - List<Media> mediaList
-  - List<User> userList
+  - ArrayList<Media> mediaList
+  - ArrayList<User> userList
   + void startSystem()
   + void registerUser()
   + void loginUser()
@@ -93,7 +93,7 @@ class StreamingService {
 
 package "util"{
 class FileIO {
-  + List<User> loadUsers()
+  + ArrayList<User> loadUsers()
   + void saveUser(User u)
 }
 
