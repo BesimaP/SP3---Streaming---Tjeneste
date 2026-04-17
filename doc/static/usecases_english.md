@@ -32,8 +32,8 @@ The user selects a search option and types an input, followed by enter.
 The system displays matching movies/series. 
 The user selects a movie/series and is given three options: play, save or back.
 
-If the user plays: the system displays "[title] is now playing..." and adds the movie/series to watched.
-If the user saves: the movie/series is added to the saved list and saved to file.
+- If the user plays: the system displays "[title] is now playing..." and adds the movie/series to watched.
+- If the user saves: the movie/series is added to the saved list and saved to file.
 
 Rainy day:
 - No movie/series matches the search: The system displays an error message and returns to the main menu.
@@ -43,8 +43,8 @@ The system displays options to view watched or saved movies/series.
 The user selects a list and the system displays the movies/series. 
 The user selects a movie/series and is given two options: play or remove.
 
-If the user plays: the system displays "[title] is now playing..." and adds the movie/series to watched.
-If the user removes: the movie/series is removed from the saved list and the file is updated.
+- If the user plays: the system displays "[title] is now playing..." and adds the movie/series to watched.
+- If the user removes: the movie/series is removed from the saved list and the file is updated.
 
 Rainy day:
 - List is empty: The system displays an error message and returns to the main menu.
