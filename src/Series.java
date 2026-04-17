@@ -13,14 +13,15 @@ public class Series extends Media{
     }
 
     public void addSeason(Season s){
-
+        seasons.add(s);
     }
 
     public int getNumberOfSeasons(){
-        return 0;
+        return seasons.size();
     }
 
     public void play(){
+        System.out.println(getTitle() + " is now playing...");
     }
 
     @Override
