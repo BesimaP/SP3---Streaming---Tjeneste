@@ -6,6 +6,13 @@ public abstract class Media {
     private double rating;
     private ArrayList<Category> categories;
 
+    public Media(String title, int releaseYear, double rating) {
+        this.title = title;
+        this.releaseYear = releaseYear;
+        this.rating = rating;
+        this.categories = new ArrayList<>();
+    }
+
     public String getTitle(){
         return title;
     }
