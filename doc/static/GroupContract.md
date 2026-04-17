@@ -1,4 +1,4 @@
-# Gruppe Konkrakt
+# Gruppe Kontrakt
 
 ## Præsentationsrunde
 **Hvem er jeg? Hvad er mine ønsker til og erfaring med gruppearbejdet?**
