@@ -48,23 +48,23 @@
 **Alternativt forløb:**
  ?
 
-## UC4 – SearchMovie
+## UC4 – SearchMedia
 
 **Aktør:** Bruger
 
 **Forudsætning:** Brugeren er logget ind
 
 **Hovedforløb:**
-1. Bruger vælger "søg efter film" i hovedmenuen
+1. Bruger vælger "søg efter medie" i hovedmenuen
 2. Systemet beder om søgetekst (title)
 3. Bruger indtaster søgetekst
 4. System viser matchende film
-5. Bruger kan vælge en film fra listen
+5. Bruger kan vælge et medie fra listen
 6. System viser filmmenu (afspil / gem)
 
 **Alternativt forløb:**
 
-1. Ingen film matcher søgning
+1. Intet medie matcher søgning
 2. System viser besked om ingen resultater
 
 ## UC5 – SearchCategories
@@ -84,16 +84,16 @@
 **Alternativt forløb:**
 ?
 
-## UC6 – WatchedMovies
+## UC6 – WatchedMedia
 
 **Aktør:** Bruger
 
-**Forudsætning:** Brugeren er logget ind og har set film
+**Forudsætning:** Brugeren er logget ind og har set et medie
 
 **Hovedforløb:**
 1. Bruger vælger "Seete film" i hovedmenuen
-2. Systemet viser liste over seete film
-3. Bruger kan vælge en film fra listen
+2. Systemet viser liste over seete medier
+3. Bruger kan vælge en medie fra listen
 4. System viser filmmenu (afspil / gem)
 
 **Alternativt forløb:**
@@ -101,33 +101,33 @@
 1. Brugeren har ikke set nogen film endnu
 2. System viser ikke seete film på hovedmenuen
 
-## UC7 – SavedMovies
+## UC7 – SavedMedia
 
 **Aktør:** Bruger
 
-**Forudsætning:** Brugeren har valgt en film
+**Forudsætning:** Brugeren har valgt et medie
 
 **Hovedforløb:**
 1. Bruger vælger "Gemt til senere" i filmmenuen
-2. Systemet tilføjer filmen til brugerens gemte liste
+2. Systemet tilføjer mediet til brugerens gemte liste
 3. System bekræfter med en besked
 4. System vender tilbage til filmmenuen
 
 **Alternativt forløb:**
 
-1. Film er allerede på listen. 
+1. Medie er allerede på listen. 
 2. System viser besked, der gemmes ikke en kopi
 
-## UC8 – PlayMovie
+## UC8 – PlayMedia
 
 **Aktør:** Bruger
 
-**Forudsætning:** Brugeren har valgt en film
+**Forudsætning:** Brugeren har valgt et medie
 
 **Hovedforløb:**
 1. Bruger vælger "Afspil" i filmmenuen
 2. Systemet viser "Title afspilles nu..."
-3. Systemet tilføjer filmen til brugerens liste over seete film
+3. Systemet tilføjer filmen/serien til brugerens liste over seete film
 4. System vender tilbage til hovedmenuen
 
 **Alternativt forløb:**
