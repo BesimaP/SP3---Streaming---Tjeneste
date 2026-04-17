@@ -14,19 +14,19 @@ public class User {
         this.saved = saved;
     }
 
-    private boolean checkLogin(String password){
+    public boolean checkLogin(String password){
         return true;
     }
 
-    private void addToWatched(Media m){
+    public void addToWatched(Media m){
 
     }
 
-    private void addToSaved(Media m){
+    public void addToSaved(Media m){
 
     }
 
-    private void removeFromSaved(Media m){
+    public void removeFromSaved(Media m){
 
     }
 
