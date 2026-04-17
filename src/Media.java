@@ -1,2 +1,2 @@
-public class Media {
+public abstract class Media {
 }
