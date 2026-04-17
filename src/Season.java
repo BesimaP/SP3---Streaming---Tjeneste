@@ -5,7 +5,6 @@ public class Season {
     private int year;
     private ArrayList<Episode> episodes;
 
-
     public int getSeasonNumber(){
         return seasonNumber;
     }
