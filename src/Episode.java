@@ -20,9 +20,6 @@ public class Episode {
         return episodeNumber;
     }
 
-    public void setEpisodeNumber(int episodeNumber) {
-        this.episodeNumber = episodeNumber;
-    }
 
     public int getDuration() {
         return duration;
