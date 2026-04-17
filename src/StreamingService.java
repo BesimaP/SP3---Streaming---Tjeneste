@@ -17,7 +17,7 @@ public class StreamingService {
     }
 
     public void startSystem() {
-        ui.displayMsg("\uD83C\uDFAC\uD83C\uDF7F Welcome to JavaStream/Streamflix \uD83D\uDCFA\uD83C\uDFA5");
+        ui.displayMsg("\uD83C\uDFAC\uD83C\uDF7F Welcome to BLLKstream \uD83D\uDCFA\uD83C\uDFA5");
 
         // Indlæs film fra CSV
         ArrayList<String> movieData = FileIO.readData("data/movies.csv");
