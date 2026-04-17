@@ -25,9 +25,12 @@ public abstract class Media {
         return rating;
     }
 
+    public ArrayList<Category> getCategories() {
+        return categories;
+    }
+
     public void addCategory(Category c){
     }
 
-    public void play() {
-    }
+    public abstract void play();
 }

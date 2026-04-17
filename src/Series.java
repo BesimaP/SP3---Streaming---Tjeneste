@@ -20,6 +20,7 @@ public class Series extends Media{
         return seasons.size();
     }
 
+    @Override
     public void play(){
         System.out.println(getTitle() + " is now playing...");
     }
