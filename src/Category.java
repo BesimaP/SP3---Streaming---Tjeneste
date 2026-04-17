@@ -4,7 +4,8 @@ public enum Category {
     Drama("🎭"),
     Family("👨‍👩‍👧"),
     Romance("❤️"),
-    Sciencefiction("🚀");
+    Sciencefiction("🚀"),
+    Mystery("🔍");
 
     private final String smiley;
 
