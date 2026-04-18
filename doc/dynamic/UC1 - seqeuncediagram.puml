@@ -1,15 +1,38 @@
 @startuml
-'https://plantuml.com/sequence-diagram
+!pragma layout smetana
+actor User
+participant Main
+participant StreamingService
+participant FileIO
+participant TextUI
 
-autonumber
+Main -> StreamingService : startSystem()
+StreamingService -> TextUI : displayMsg("Welcome to BLLKstream")
 
-== Initialization ==
+StreamingService -> FileIO : readData("data/movies.csv")
+FileIO --> StreamingService : ArrayList<String>
+note right of StreamingService : Opretter Movie-objekter\nog tilføjer kategorier
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+StreamingService -> FileIO : readData("data/series.csv")
+FileIO --> StreamingService : ArrayList<String>
+note right of StreamingService : Opretter Series, Season\nog Episode-objekter
 
-== Repetition ==
+StreamingService -> FileIO : readData("data/users.csv")
+FileIO --> StreamingService : ArrayList<String>
+note right of StreamingService : Opretter User-objekter
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+alt ingen brugere
+    StreamingService -> StreamingService : registerUser()
+else brugere findes
+    StreamingService -> TextUI : displayMsg("\n1. Login\n2. Create User")
+    TextUI --> User : viser startmenu
+end
+
+'Forklaring:
+'Main starter det hele ved at kalde startSystem()
+'StreamingService viser velkomstbesked via TextUI
+'StreamingService beder FileIO om at læse film, serier og brugere
+'FileIO sender data tilbage (de stiplede pile -->)
+'Til sidst tjekker StreamingService om der er brugere og viser enten startmenuen eller sender til registrering
+
 @enduml
