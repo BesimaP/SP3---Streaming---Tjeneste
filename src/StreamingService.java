@@ -137,36 +137,38 @@ public class StreamingService {
         }
     }
 
-    public void registerUser(){
-        // Spørger om brugernavn
-        String username = ui.promptText("Enter your username: ");
+    public void registerUser() {
+        int attempts = 0;
+        while (attempts < 3) {
+            // Spørger om brugernavn
+            String username = ui.promptText("Enter your username: ");
 
-        // Tjekker om brugernavnet allerede er i brug
-        for(User u : userList){
-            if (u.getUsername().equals(username)) {
-                // Brugernavnet er taget → viser fejl og prøv igen
-                ui.displayMsg("Username already exists, try again");
-                registerUser();
-                return;
+            // Tjekker om brugernavnet allerede er taget
+            for (User u : userList) {
+                if (u.getUsername().equals(username)) {
+                    ui.displayMsg("Username already exists, try again");
+                    attempts++;
+                }
             }
+
+            // Spørger om adgangskode
+            String password = ui.promptText("Enter your password: ");
+
+            // Opretteer ny bruger og tilføj til listen
+            User newUser = new User(username, password);
+            userList.add(newUser);
+
+            // Gemmer den opdaterede brugerliste i filen
+            saveUsers();
+
+            // Sender videre til login (UC3)
+            loginUser();
+            return;
         }
 
-        // Spørger om adgangskode
-        String password = ui.promptText("Enter your password: ");
-
-        // Opretter ny bruger og tilføj til listen
-        User newUser = new User(username, password);
-        userList.add(newUser);
-
-        // Gemmer den opdaterede brugerliste i filen
-        saveUsers();
-
-        // Sender videre til login (UC3)
-        loginUser();
-
-        //Hvis vi skal have maks 3 forsøg, skal vi bruge while
-        //int attempts = 0;
-        //while(attempts < 3){spørger om brugernavn, tjek om det er taget, attempts++;}
+        // 3 mislykkede forsøg → tilbage til startmenuen
+        ui.displayMsg("Too many attempts, returning to start menu");
+        showStartMenu();
     }
 
     public void loginUser(){
