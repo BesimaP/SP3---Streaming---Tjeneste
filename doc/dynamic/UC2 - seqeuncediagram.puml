@@ -1,15 +1,35 @@
 @startuml
-'https://plantuml.com/sequence-diagram
+!pragma layout smetana
+actor User
+participant StreamingService
+participant TextUI
+participant FileIO
 
-autonumber
+User -> StreamingService : registerUser()
 
-== Initialization ==
+loop maks 3 forsøg
+    StreamingService -> TextUI : promptText("Enter your username")
+    TextUI --> User : viser prompt
+    User -> TextUI : indtaster brugernavn
+    TextUI --> StreamingService : username
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+    alt brugernavnet er taget
+        StreamingService -> TextUI : displayMsg("Username already exists")
+        TextUI --> User : viser fejlbesked
+    else brugernavnet er ledigt
+        StreamingService -> TextUI : promptText("Enter your password")
+        TextUI --> User : viser prompt
+        User -> TextUI : indtaster adgangskode
+        TextUI --> StreamingService : password
 
-== Repetition ==
+        StreamingService -> FileIO : saveUsers()
+        FileIO --> StreamingService : gemt
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+        StreamingService -> StreamingService : loginUser()
+    end
+end
+
+StreamingService -> TextUI : displayMsg("Too many attempts")
+StreamingService -> StreamingService : showStartMenu()
+
 @enduml
