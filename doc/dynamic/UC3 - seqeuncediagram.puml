@@ -1,15 +1,30 @@
 @startuml
-'https://plantuml.com/sequence-diagram
+actor User
+participant StreamingService
+participant TextUI
 
-autonumber
+User -> StreamingService : loginUser()
 
-== Initialization ==
+loop maks 3 forsøg
+    StreamingService -> TextUI : promptText("Enter your username")
+    TextUI --> User : viser prompt
+    User -> TextUI : indtaster brugernavn
+    TextUI --> StreamingService : username
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+    StreamingService -> TextUI : promptText("Enter your password")
+    TextUI --> User : viser prompt
+    User -> TextUI : indtaster adgangskode
+    TextUI --> StreamingService : password
 
-== Repetition ==
+    alt login lykkedes
+        StreamingService -> TextUI : displayMsg("Login successful")
+        StreamingService -> StreamingService : showMainMenu(u)
+    else forkert login
+        StreamingService -> TextUI : displayMsg("Wrong username or password")
+    end
+end
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+StreamingService -> TextUI : displayMsg("Too many attempts")
+StreamingService -> StreamingService : showStartMenu()
+
 @enduml
