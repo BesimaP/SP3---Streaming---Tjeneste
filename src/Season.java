@@ -5,6 +5,12 @@ public class Season {
     private int year;
     private ArrayList<Episode> episodes;
 
+    public Season(int seasonNumber, int year) {
+        this.seasonNumber = seasonNumber;
+        this.year = year;
+        this.episodes = new ArrayList<>();
+    }
+
     public int getSeasonNumber(){
         return seasonNumber;
     }
@@ -14,6 +20,7 @@ public class Season {
     }
 
     public void addEpisode(Episode e) {
+        episodes.add(e);
     }
 
     @Override

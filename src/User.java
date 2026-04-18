@@ -2,20 +2,20 @@ import java.util.ArrayList;
 
 public class User {
 
-    private String userName;
+    private String username;
     private String password;
     private ArrayList<Media>watched;
     private ArrayList<Media>saved;
 
-    public User(String userName, String password, ArrayList<Media> watched, ArrayList<Media> saved) {
-        this.userName = userName;
+    public User(String username, String password) {
+        this.username = username;
         this.password = password;
-        this.watched = watched;
-        this.saved = saved;
+        this.watched = new ArrayList<>();
+        this.saved = new ArrayList<>();
     }
 
     public boolean checkLogin(String password){
-        return true;
+        return this.password.equals(password);
     }
 
     public void addToWatched(Media m){
@@ -30,12 +30,12 @@ public class User {
 
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.username = username;
     }
 
     public String getPassword() {
