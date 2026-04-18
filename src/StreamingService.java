@@ -172,6 +172,28 @@ public class StreamingService {
     }
 
     public void loginUser(){
+        int attempts = 0;
+        while(attempts < 3) {
+            String username = ui.promptText("Enter your username: ");
+            String password = ui.promptText("Enter your password: ");
+
+            for (User u : userList) {
+                if (u.getUsername().equals(username) && u.getPassword().equals(password)) {
+                    // Login lykkedes → vis hovedmenu
+                    ui.displayMsg("Login successful");
+                    showMainMenu(u);
+                    return;
+                }
+            }
+    
+            // Forkert brugernavn eller password → tæl forsøg op
+            attempts++;
+            ui.displayMsg("Wrong username or password. Attempts left: " + (3 - attempts));
+        }
+
+        // 3 mislykkede forsøg → tilbage til startmenuen
+        ui.displayMsg("Too many attempts, returning to start menu");
+        showStartMenu();
     }
 
     public void findMedia(){
