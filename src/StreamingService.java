@@ -135,6 +135,11 @@ public class StreamingService {
         } else {
             showStartMenu();
         }
+        ArrayList<String> watchedMedia = FileIO.readData("data/watchedMedia.csv");
+
+
+        ArrayList<String> savedMedia = FileIO.readData("data/savedMedia.csv");
+
     }
 
     public void registerUser() {
@@ -265,5 +270,37 @@ public class StreamingService {
     private void showMainMenu(User user) {
         ui.displayMsg("\n1. Search by title\n2. Search by category\n3. Watched list\n4. Saved list");
         int choice = ui.promptNumeric("Choose:");
+        run(user);
     }
+
+    public void run(User user){
+        String choice = "";
+        while (!choice.equals("0")) {
+            showMainMenu(user);
+            choice = ui.promptText("Vælg:").trim();
+
+            switch (choice) {
+                case "1": searchTitle();  break;
+                case "2": searchCategory();break;
+                case "3": displayWatchedList(user); break;
+                case "4": displaySavedList(user);     break;
+                case "0": System.out.println("Afslutter...");break;
+                default :System.out.println("Ugyldigt valg, prøv igen.");
+            }
+        }
+    }
+
+    public void displayWatchedList(User user){
+        for (Media watchedList : user.getWatched()) {
+            ui.displayMsg(watchedList.getTitle());
+        }
+    }
+
+    public void displaySavedList(User user){
+       for(Media savedList : user.getSaved()){
+           ui.displayMsg(savedList.getTitle());
+       }
+    }
+
+
 }
