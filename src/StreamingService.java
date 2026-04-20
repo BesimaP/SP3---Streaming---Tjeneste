@@ -252,7 +252,7 @@ public class StreamingService {
         ArrayList<User> users = new ArrayList<>();
         ArrayList<String> data = FileIO.readData("data/users.csv");
         for (String line : data) {
-            // Hver linje ser sådan ud: "username,password"
+            // Hver linje ser sådan ud: "id,username,password"
             if (line.trim().isEmpty()) continue;
             String[] parts = line.split(",");
             users.add(new User(parts[0].trim(), parts[1].trim(), parts[2].trim()));
@@ -260,8 +260,22 @@ public class StreamingService {
         return users;
     }
 
+   /* private ArrayList<Movie> loadMovies(){
+        ArrayList<Movie> movies = new ArrayList<>();
+        ArrayList<String> data = FileIO.readData("data/movies.csv");
+        for(String line : data){
+            //Hver linje ser sådan ud: "Title,Year,Genre,Rating,"
+            if(line.trim().isEmpty()) continue;
+            String[] parts = line.split(";");
+            movies.add(new Movie(parts[0].trim(), parts[2].equals(Category), Double.parseDouble(parts[3].trim())));
+        }
+        return movies;
+    }
+    */
+
+
     // Gemmer alle brugere i users.csv
-    // Format: "username,password" – én bruger per linje - Tilføjhelse af userID for at holde styr på watch liste og saved
+    // Format: "id,username,password" – én bruger per linje - Tilføjhelse af userID for at holde styr på watch liste og saved
     private void saveUsers() {
         ArrayList<String> data = new ArrayList<>();
         for (User u : userList) {
