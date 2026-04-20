@@ -53,7 +53,7 @@ public class StreamingService {
             double rating = Double.parseDouble(parts[3].trim().replace(",", "."));
 
             // Oprettet film-objekt med titel, år, rating og varighed 0 (ikke i CSV)
-            Movie movie = new Movie(title, year, rating, 0);
+            Movie movie = new Movie(title, year, rating);
 
             // Deler genre op ved ","
             // og tilføj hver kategori til filmen
@@ -291,16 +291,37 @@ public class StreamingService {
             choice = ui.promptText("Vælg:").trim();
 
             switch (choice) {
-                case "1": searchTitle();  break;
-                case "2": searchCategory();break;
-                case "3": displayWatchedList(user); break;
-                manageMedia(user, user.getWatched());
-                case "4": displaySavedList(user);     break;
-                manageMedia(user, user.getSaved());
-                case "0": System.out.println("Afslutter...");break;
+                case "1": searchTitle();
+                break;
+               // case "2": searchCategory();break;
+                case "3":
+                    displayWatchedList(user);
+                    manageMedia(user, user.getWatched());
+                    break; // break rykkes for syntax
+                case "4":
+                    displaySavedList(user);
+                    manageMedia(user, user.getSaved());
+                    break;
+                case "0": System.out.println("Afslutter...");
+                break;
                 default :System.out.println("Ugyldigt valg, prøv igen.");
             }
         }
+    }
+
+    public void searchTitle() {
+        String title = ui.promptText("Search title: ");
+
+        for (Media m : mediaList) {
+            if (m.getTitle().toLowerCase().contains(title.toLowerCase())) {
+                ui.displayMsg(m.getTitle());
+            }
+        }
+    }
+
+    public void searchCategory(String title) {
+
+
     }
 
     public void displayWatchedList(User user){
