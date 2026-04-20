@@ -21,15 +21,15 @@ public class User {
     }
 
     public void addToWatched(Media m){
-
+        watched.add(m);
     }
 
     public void addToSaved(Media m){
-
+        saved.add(m);
     }
 
     public void removeFromSaved(Media m){
-
+        saved.remove(m);
     }
 
     public String getId() {
@@ -40,36 +40,20 @@ public class User {
         return username;
     }
 
-    public void setUserName(String userName) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public ArrayList<Media> getWatched() {
         return watched;
     }
 
-    public void setWatched(ArrayList<Media> watched) {
-        this.watched = watched;
-    }
-
     public ArrayList<Media> getSaved() {
         return saved;
     }
 
-    public void setSaved(ArrayList<Media> saved) {
-        this.saved = saved;
-    }
-
     @Override
     public String toString() {
-        return super.toString();
+        return "User: " + username;
     }
 }

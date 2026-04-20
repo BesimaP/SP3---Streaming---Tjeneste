@@ -193,7 +193,7 @@ public class StreamingService {
             String password = ui.promptText("Enter your password: ");
 
             for (User u : userList) {
-                if (u.getUsername().equals(username) && u.getPassword().equals(password)) {
+                if (u.getUsername().equals(username) && u.checkLogin(password)) {
                     // Login lykkedes → vis hovedmenu
                     ui.displayMsg("Login successful");
                     showMainMenu(u);
