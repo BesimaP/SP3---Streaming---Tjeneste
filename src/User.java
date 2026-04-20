@@ -2,12 +2,14 @@ import java.util.ArrayList;
 
 public class User {
 
+    private int id;
     private String username;
     private String password;
     private ArrayList<Media>watched;
     private ArrayList<Media>saved;
 
     public User(String username, String password) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.watched = new ArrayList<>();
@@ -28,6 +30,10 @@ public class User {
 
     public void removeFromSaved(Media m){
 
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getUsername() {

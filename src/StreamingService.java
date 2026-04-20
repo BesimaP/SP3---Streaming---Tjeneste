@@ -158,6 +158,7 @@ public class StreamingService {
             User newUser = new User(username, password);
             userList.add(newUser);
 
+
             // Gemmer den opdaterede brugerliste i filen
             saveUsers();
 
@@ -245,13 +246,13 @@ public class StreamingService {
     }
 
     // Gemmer alle brugere i users.csv
-    // Format: "username,password" – én bruger per linje
+    // Format: "username,password" – én bruger per linje - Tilføjhelse af userID for at holde styr på watch liste og saved
     private void saveUsers() {
         ArrayList<String> data = new ArrayList<>();
         for (User u : userList) {
-            data.add(u.getUsername() + "," + u.getPassword());
+            data.add(u.getId() +"," + u.getUsername() + "," + u.getPassword());
         }
-        FileIO.saveData(data, "data/users.csv", "username,password");
+        FileIO.saveData(data, "data/users.csv", "userID,username,password");
     }
 
     //Menuer
