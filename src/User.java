@@ -21,15 +21,19 @@ public class User {
     }
 
     public void addToWatched(Media m){
-
+        if (!watched.contains(m)) {
+            watched.add(m);
+        }
     }
 
     public void addToSaved(Media m){
-
+        if (!saved.contains(m)) {
+            saved.add(m);
+        }
     }
 
     public void removeFromSaved(Media m){
-
+        saved.remove(m);
     }
 
     public String getId() {

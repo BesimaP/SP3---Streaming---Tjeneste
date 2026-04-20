@@ -12,7 +12,7 @@ public class Movie extends Media{
 
     @Override
     public void play(){
-        ui.displayMsg(getTitle() + " is now playing...");
+        System.out.println(getTitle() + " is now playing...");
     }
 
     @Override

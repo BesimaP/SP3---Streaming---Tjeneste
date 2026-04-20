@@ -196,7 +196,7 @@ public class StreamingService {
                 if (u.getUsername().equals(username) && u.getPassword().equals(password)) {
                     // Login lykkedes → vis hovedmenu
                     ui.displayMsg("Login successful");
-                    showMainMenu(u);
+                    run(u);
                     return;
                 }
             }
@@ -279,9 +279,7 @@ public class StreamingService {
     }
 
     private void showMainMenu(User user) {
-        ui.displayMsg("\n1. Search by title\n2. Search by category\n3. Watched list\n4. Saved list");
-        int choice = ui.promptNumeric("Choose:");
-        run(user);
+        ui.displayMsg("\n1. Search by title\n2. Search by category\n3. Watched list\n4. Saved list\n0. Exit");
     }
 
     public void run(User user){
@@ -293,7 +291,8 @@ public class StreamingService {
             switch (choice) {
                 case "1": searchTitle();
                 break;
-               // case "2": searchCategory();break;
+                case "2": searchCategory();
+                break;
                 case "3":
                     displayWatchedList(user);
                     manageMedia(user, user.getWatched());
@@ -312,16 +311,126 @@ public class StreamingService {
     public void searchTitle() {
         String title = ui.promptText("Search title: ");
 
+        ArrayList<Media> results = new ArrayList<>();
         for (Media m : mediaList) {
             if (m.getTitle().toLowerCase().contains(title.toLowerCase())) {
-                ui.displayMsg(m.getTitle());
+                results.add(m);
             }
         }
+
+        if (results.isEmpty()) {
+            ui.displayMsg("No results found for: " + title);
+            return;
+        }
+
+        ui.displayMsg("\nResults:");
+        for (int i = 0; i < results.size(); i++) {
+            Media m = results.get(i);
+            String type = (m instanceof Series) ? "[Series]" : "[Movie]";
+            ui.displayMsg((i + 1) + ". " + type + " " + m.getTitle() + " (" + m.getReleaseYear() + ") - Rating: " + m.getRating());
+        }
+
+        int mediaChoice = ui.promptNumeric("Choose a title (number): ");
+        if (mediaChoice < 1 || mediaChoice > results.size()) {
+            ui.displayMsg("Invalid choice");
+            return;
+        }
+
+        // Kalder den delte metode i stedet for at gentage koden
+        playMedia(results.get(mediaChoice - 1));
     }
 
-    public void searchCategory(String title) {
+    public void searchCategory() {
+        ui.displayMsg("\nCategories:");
+        ui.displayMsg("1. Crime");
+        ui.displayMsg("2. War");
+        ui.displayMsg("3. Drama");
+        ui.displayMsg("4. Family");
+        ui.displayMsg("5. Romance");
+        ui.displayMsg("6. Sci-Fi");
+        ui.displayMsg("7. Mystery");
 
+        int categoryChoice = ui.promptNumeric("Choose a category (number): ");
 
+        Category chosen;
+        switch (categoryChoice) {
+            case 1: chosen = Category.Crime; break;
+            case 2: chosen = Category.War; break;
+            case 3: chosen = Category.Drama; break;
+            case 4: chosen = Category.Family; break;
+            case 5: chosen = Category.Romance; break;
+            case 6: chosen = Category.Sciencefiction; break;
+            case 7: chosen = Category.Mystery; break;
+            default:
+                ui.displayMsg("Invalid choice");
+                return;
+        }
+
+        ArrayList<Media> results = new ArrayList<>();
+        for (Media m : mediaList) {
+            if (m.getCategories().contains(chosen)) {
+                results.add(m);
+            }
+        }
+
+        if (results.isEmpty()) {
+            ui.displayMsg("No results found for that category");
+            return;
+        }
+
+        ui.displayMsg("\nResults:");
+        for (int i = 0; i < results.size(); i++) {
+            Media m = results.get(i);
+            String type = (m instanceof Series) ? "[Series]" : "[Movie]";
+            ui.displayMsg((i + 1) + ". " + type + " " + m.getTitle() + " (" + m.getReleaseYear() + ") - Rating: " + m.getRating());
+        }
+
+        int mediaChoice = ui.promptNumeric("Choose a title (number): ");
+        if (mediaChoice < 1 || mediaChoice > results.size()) {
+            ui.displayMsg("Invalid choice");
+            return;
+        }
+
+        // Kalder den delte metode i stedet for at gentage koden
+        playMedia(results.get(mediaChoice - 1));
+    }
+
+    private void playMedia(Media chosen) {
+        if (chosen instanceof Series) {
+            Series series = (Series) chosen;
+            ArrayList<Season> seasons = series.getSeasons();
+
+            ui.displayMsg("\nSeasons in " + series.getTitle() + ":");
+            for (int i = 0; i < seasons.size(); i++) {
+                Season s = seasons.get(i);
+                ui.displayMsg((i + 1) + ". Season " + s.getSeasonNumber() + " (" + s.getEpisodes().size() + " episodes)");
+            }
+
+            int seasonChoice = ui.promptNumeric("Choose a season: ");
+            if (seasonChoice < 1 || seasonChoice > seasons.size()) {
+                ui.displayMsg("Invalid choice");
+                return;
+            }
+
+            Season chosenSeason = seasons.get(seasonChoice - 1);
+            ArrayList<Episode> episodes = chosenSeason.getEpisodes();
+
+            ui.displayMsg("\nEpisodes in Season " + chosenSeason.getSeasonNumber() + ":");
+            for (int i = 0; i < episodes.size(); i++) {
+                ui.displayMsg((i + 1) + ". " + episodes.get(i).getTitle());
+            }
+
+            int episodeChoice = ui.promptNumeric("Choose an episode: ");
+            if (episodeChoice < 1 || episodeChoice > episodes.size()) {
+                ui.displayMsg("Invalid choice");
+                return;
+            }
+
+            episodes.get(episodeChoice - 1).play();
+
+        } else {
+            chosen.play();
+        }
     }
 
     public void displayWatchedList(User user){
