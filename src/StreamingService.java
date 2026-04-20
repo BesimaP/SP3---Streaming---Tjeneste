@@ -291,8 +291,8 @@ public class StreamingService {
             choice = ui.promptText("Vælg:").trim();
 
             switch (choice) {
-                case "1": searchTitle();  break;
-                case "2": searchCategory();break;
+//                case "1": searchTitle();  break;
+//                case "2": searchCategory();break;
                 case "3": displayWatchedList(user); break;
                 case "4": displaySavedList(user);     break;
                 case "0": System.out.println("Afslutter...");break;
