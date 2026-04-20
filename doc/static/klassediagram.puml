@@ -84,10 +84,17 @@ class Administrator {
 class StreamingService {
   - ArrayList<Media> mediaList
   - ArrayList<User> userList
+  - TextUI ui
+  - FileIO fileIO
   + void startSystem()
   + void registerUser()
   + void loginUser()
-  + void findMedia()
+  + void findMedia()- måske slet
+  - Category parseCategory(String genre)
+  - Arraylist<User>loadUsers()
+  - void saveUsers()
+  - void showStartMenu()
+  - void showMainMenu()
 }
 
 
