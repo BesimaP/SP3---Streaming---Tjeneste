@@ -1,0 +1,162 @@
+@startuml
+!pragma layout smetana
+
+class Main {
+    +main(String[] args)
+}
+
+class StreamingService {
+    -ArrayList<Media> mediaList
+    -ArrayList<User> userList
+    -TextUI ui
+    --
+    +startSystem()
+    +saveUsers()
+    +Category parseCategory(String genre)
+    +ArrayList<Media> getMediaList()
+    +ArrayList<User> getUserList()
+    +TextUI getUi()
+    +addUser(User u)
+}
+
+class Menu {
+    -UserController userController
+    -MediaController mediaController
+    -TextUI ui
+    --
+    +showStartMenu()
+    +run(User user)
+    -showMainMenu()
+}
+
+class UserController {
+    -StreamingService service
+    -Menu menu
+    -TextUI ui
+    --
+    +setMenu(Menu menu)
+    +registerUser()
+    +loginUser()
+}
+
+class MediaController {
+    -StreamingService service
+    -TextUI ui
+    --
+    +searchTitle()
+    +searchCategory()
+    +displayWatchedList(User user)
+    +displaySavedList(User user)
+    +manageMedia(User user, ArrayList<Media> list)
+    -playMedia(Media chosen)
+}
+
+abstract class Media {
+    -String title
+    -int releaseYear
+    -double rating
+    -ArrayList<Category> categories
+    --
+    +String getTitle()
+    +double getRating()
+    +addCategory(Category c)
+    +ArrayList<Category> getCategories()
+    +{abstract} play()
+}
+
+class Movie {
+    -int duration
+    --
+    +play()
+}
+
+class Series {
+    -ArrayList<Season> seasons
+    --
+    +addSeason(Season s)
+    +int getNumberOfSeasons()
+    +play()
+}
+
+class Season {
+    -int seasonNumber
+    -int year
+    -ArrayList<Episode> episodes
+    --
+    +addEpisode(Episode e)
+}
+
+class Episode {
+    -int episodeNumber
+    -int duration
+    --
+    +play()
+}
+
+class User {
+    -String id
+    -String username
+    -String password
+    -ArrayList<Media> watched
+    -ArrayList<Media> saved
+    --
+    +boolean checkLogin(String password)
+    +addToWatched(Media m)
+    +addToSaved(Media m)
+    +removeFromSaved(Media m)
+}
+
+enum Category {
+    Crime
+    War
+    Drama
+    Family
+    Romance
+    Sciencefiction
+    Mystery
+}
+
+package Util {
+    class FileIO {
+        +{static} ArrayList<String> readData(String path)
+        +{static} saveData(ArrayList<String> list, String path, String header)
+    }
+
+    class TextUI {
+        +displayMsg(String msg)
+        +String promptText(String msg)
+        +int promptNumeric(String msg)
+        +boolean promptBinary(String msg)
+    }
+}
+
+' Relationer
+Main --> StreamingService
+
+StreamingService *-- UserController
+StreamingService *-- MediaController
+StreamingService *-- Menu
+StreamingService --> FileIO
+StreamingService --> TextUI
+StreamingService --> User
+StreamingService --> Media
+
+Menu --> UserController
+Menu --> MediaController
+Menu --> TextUI
+
+UserController --> Menu
+UserController --> TextUI
+
+MediaController --> TextUI
+
+Media <|-- Movie
+Media <|-- Series
+Series *-- Season
+Season *-- Episode
+Media <|-- Episode
+Media --> Category
+
+User --> Media : watched/saved
+
+@enduml
