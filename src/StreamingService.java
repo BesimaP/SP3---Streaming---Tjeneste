@@ -154,8 +154,17 @@ public class StreamingService {
             // Spørger om adgangskode
             String password = ui.promptText("Enter your password: ");
 
+            //TILFøjer userID og starter fra 1 og går op skal også parses
+            int nextId = 1;
+            for (User u : userList) {
+                int uid = Integer.parseInt(u.getId());
+                if (uid >= nextId) {
+                    nextId = uid + 1;
+                }
+            }
+
             // Opretteer ny bruger og tilføj til listen
-            User newUser = new User(username, password);
+            User newUser = new User(String.valueOf(nextId), username, password);
             userList.add(newUser);
 
 
@@ -239,8 +248,9 @@ public class StreamingService {
         ArrayList<String> data = FileIO.readData("data/users.csv");
         for (String line : data) {
             // Hver linje ser sådan ud: "username,password"
+            if (line.trim().isEmpty()) continue;
             String[] parts = line.split(",");
-            users.add(new User(parts[0].trim(), parts[1].trim()));
+            users.add(new User(parts[0].trim(), parts[1].trim(), parts[2].trim()));
         }
         return users;
     }

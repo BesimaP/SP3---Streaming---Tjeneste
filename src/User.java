@@ -2,13 +2,13 @@ import java.util.ArrayList;
 
 public class User {
 
-    private int id;
+    private String id;
     private String username;
     private String password;
     private ArrayList<Media>watched;
     private ArrayList<Media>saved;
 
-    public User(String username, String password) {
+    public User(String id, String username, String password) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -32,7 +32,7 @@ public class User {
 
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
