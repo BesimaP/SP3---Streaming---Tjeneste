@@ -4,7 +4,6 @@ public class Episode {
     private int episodeNumber;
     private int duration;
 
-
     public Episode(String title, int episodeNumber, int duration) {
         this.title = title;
         this.episodeNumber = episodeNumber;
@@ -25,9 +24,8 @@ public class Episode {
         return duration;
     }
 
-
     @Override
     public String toString() {
-        return super.toString();
+        return "Episode " + episodeNumber + ": " + title;
     }
 }

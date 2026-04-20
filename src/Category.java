@@ -17,5 +17,10 @@ public enum Category {
         return smiley;
     }
 
+    @Override
+    public String toString() {
+        return name() + " " + smiley;
+    }
+
     //eksempel: Category.Romance + " " + Category.Romance.getSmiley()
 }

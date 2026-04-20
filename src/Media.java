@@ -30,7 +30,13 @@ public abstract class Media {
     }
 
     public void addCategory(Category c){
+        categories.add(c);
     }
 
     public abstract void play();
+
+    @Override
+    public String toString() {
+        return title + " (" + releaseYear + ") - Rating: " + rating;
+    }
 }

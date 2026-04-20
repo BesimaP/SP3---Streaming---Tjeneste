@@ -1,18 +1,22 @@
 import java.util.ArrayList;
 
-public class Administrator {
+public class Administrator extends User {
 
+    public Administrator(String id, String username, String password) {
+        super(id, username, password);
+    }
 
     public void addMedia(Media m, ArrayList<Media>list){
-
+        list.add(m);
     }
-    public void removeMedia(Media m, ArrayList<Media>list){
 
+    public void removeMedia(Media m, ArrayList<Media>list){
+        list.remove(m);
     }
 
     @Override
     public String toString() {
-        return super.toString();
+        return "Administrator - " + super.toString();
     }
 }
 

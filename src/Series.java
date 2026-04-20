@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Series extends Media{
     private ArrayList<Season> seasons;
-    TextUI ui;
+    private TextUI ui;
 
     public Series(String title, int relaseYear, double rating) {
         super(title,relaseYear,rating);
@@ -30,6 +30,6 @@ public class Series extends Media{
 
     @Override
     public String toString() {
-        return super.toString();
+        return super.toString() + " - Seasons: " + getNumberOfSeasons();
     }
 }

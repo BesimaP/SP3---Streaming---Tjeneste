@@ -53,7 +53,7 @@ public class StreamingService {
             double rating = Double.parseDouble(parts[3].trim().replace(",", "."));
 
             // Oprettet film-objekt med titel, år, rating og varighed 0 (ikke i CSV)
-            Movie movie = new Movie(title, year, rating);
+            Movie movie = new Movie(title, year, rating,0);
 
             // Deler genre op ved ","
             // og tilføj hver kategori til filmen

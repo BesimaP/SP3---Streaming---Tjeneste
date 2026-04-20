@@ -25,6 +25,6 @@ public class Season {
 
     @Override
     public String toString() {
-        return super.toString();
+        return "Season " + seasonNumber + " - Episodes: " + episodes.size();
     }
 }
