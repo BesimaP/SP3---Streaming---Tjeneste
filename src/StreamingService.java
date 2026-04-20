@@ -294,7 +294,9 @@ public class StreamingService {
                 case "1": searchTitle();  break;
                 case "2": searchCategory();break;
                 case "3": displayWatchedList(user); break;
+                manageMedia(user, user.getWatched());
                 case "4": displaySavedList(user);     break;
+                manageMedia(user, user.getSaved());
                 case "0": System.out.println("Afslutter...");break;
                 default :System.out.println("Ugyldigt valg, prøv igen.");
             }
@@ -302,15 +304,50 @@ public class StreamingService {
     }
 
     public void displayWatchedList(User user){
+        if(user.getWatched().isEmpty()){
+            ui.displayMsg("List is empty");
+            return;
+        }
         for (Media watchedList : user.getWatched()) {
             ui.displayMsg(watchedList.getTitle());
         }
     }
 
     public void displaySavedList(User user){
-       for(Media savedList : user.getSaved()){
-           ui.displayMsg(savedList.getTitle());
-       }
+        if(user.getWatched().isEmpty()){
+            ui.displayMsg("List is empty");
+            return;
+        }
+        for(Media savedList : user.getSaved()){
+            ui.displayMsg(savedList.getTitle());
+        }
+    }
+
+    private void manageMedia(User user, ArrayList<Media>list){
+        boolean found = false;
+        String titleChoice = ui.promptText("Enter title: You can play or delete a media from your list");
+        for(Media m: list){
+            if(m.getTitle().equals(titleChoice)){
+                found = true;
+                //film fundet - vis valg:
+                ui.displayMsg("You have chosen"+ titleChoice);
+                int choice = ui.promptNumeric("Press 1 to play and press 2 to delete");
+
+                if(choice == 1){
+                    m.play();
+                    user.addToWatched(m);
+                }else if (choice == 2){
+                    user.removeFromSaved(m);
+                    saveUsers();
+                    ui.displayMsg(titleChoice + " has been removed");
+                }
+                return;
+            }
+        }
+        if(!found){
+            ui.displayMsg("Title not found");
+            manageMedia(user, list);
+        }
     }
 
 
