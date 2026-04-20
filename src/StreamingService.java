@@ -335,7 +335,7 @@ public class StreamingService {
     }
 
     public void displaySavedList(User user){
-        if(user.getWatched().isEmpty()){
+        if(user.getSaved().isEmpty()){
             ui.displayMsg("List is empty");
             return;
         }
