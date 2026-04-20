@@ -53,7 +53,7 @@ public class StreamingService {
             double rating = Double.parseDouble(parts[3].trim().replace(",", "."));
 
             // Oprettet film-objekt med titel, år, rating og varighed 0 (ikke i CSV)
-            Movie movie = new Movie(title, year, rating);
+            Movie movie = new Movie(title, year, rating,0);
 
             // Deler genre op ved ","
             // og tilføj hver kategori til filmen
@@ -193,7 +193,7 @@ public class StreamingService {
             String password = ui.promptText("Enter your password: ");
 
             for (User u : userList) {
-                if (u.getUsername().equals(username) && u.getPassword().equals(password)) {
+                if (u.getUsername().equals(username) && u.checkLogin(password)) {
                     // Login lykkedes → vis hovedmenu
                     ui.displayMsg("Login successful");
                     run(u);
@@ -444,7 +444,7 @@ public class StreamingService {
     }
 
     public void displaySavedList(User user){
-        if(user.getWatched().isEmpty()){
+        if(user.getSaved().isEmpty()){
             ui.displayMsg("List is empty");
             return;
         }

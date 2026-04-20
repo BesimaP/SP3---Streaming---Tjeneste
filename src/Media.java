@@ -34,4 +34,9 @@ public abstract class Media {
     }
 
     public abstract void play();
+
+    @Override
+    public String toString() {
+        return title + " (" + releaseYear + ") - Rating: " + rating;
+    }
 }

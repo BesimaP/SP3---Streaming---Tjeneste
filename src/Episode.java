@@ -31,9 +31,8 @@ public class Episode extends Media{
         return duration;
     }
 
-
     @Override
     public String toString() {
-        return super.toString();
+        return "Episode " + episodeNumber + ": " + title;
     }
 }
