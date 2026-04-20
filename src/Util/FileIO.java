@@ -43,7 +43,7 @@ public class FileIO {
                 data.add(line);
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Filen findes ikke");
+            System.out.println("File not found");
         }
         return data;
     }
@@ -62,7 +62,7 @@ public class FileIO {
             }
 
         } catch (FileNotFoundException e) {
-            System.out.println("Filen findes ikke");
+            System.out.println("File not found");
         }
         return data;
     }

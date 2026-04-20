@@ -286,7 +286,7 @@ public class StreamingService {
         String choice = "";
         while (!choice.equals("0")) {
             showMainMenu(user);
-            choice = ui.promptText("Vælg:").trim();
+            choice = ui.promptText("choose").trim();
 
             switch (choice) {
                 case "1": searchTitle();
@@ -301,9 +301,9 @@ public class StreamingService {
                     displaySavedList(user);
                     manageMedia(user, user.getSaved());
                     break;
-                case "0": System.out.println("Afslutter...");
+                case "0": System.out.println("ending...");
                 break;
-                default :System.out.println("Ugyldigt valg, prøv igen.");
+                default :System.out.println("invalid choice...");
             }
         }
     }
