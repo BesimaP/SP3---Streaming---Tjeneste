@@ -1,35 +1,40 @@
 @startuml
-!pragma layout smetana
-actor User
+
+actor Bruger
+
+participant UserController
 participant StreamingService
 participant TextUI
 participant FileIO
 
-User -> StreamingService : registerUser()
+Bruger -> UserController : registerUser()
 
 loop maks 3 forsøg
-    StreamingService -> TextUI : promptText("Enter your username")
-    TextUI --> User : viser prompt
-    User -> TextUI : indtaster brugernavn
-    TextUI --> StreamingService : username
+    UserController -> TextUI : promptText("Enter your username")
+    TextUI --> Bruger : viser prompt
+    Bruger -> TextUI : indtaster brugernavn
+    TextUI --> UserController : username
 
-    alt brugernavnet er taget
-        StreamingService -> TextUI : displayMsg("Username already exists")
-        TextUI --> User : viser fejlbesked
+    alt OBS: brugernavnet findes allerede
+        UserController -> TextUI : displayMsg("Username already exists")
+        TextUI --> Bruger : viser fejlbesked
     else brugernavnet er ledigt
-        StreamingService -> TextUI : promptText("Enter your password")
-        TextUI --> User : viser prompt
-        User -> TextUI : indtaster adgangskode
-        TextUI --> StreamingService : password
+        UserController -> TextUI : promptText("Enter your password")
+        TextUI --> Bruger : viser prompt
+        Bruger -> TextUI : indtaster adgangskode
+        TextUI --> UserController : password
 
-        StreamingService -> FileIO : saveUsers()
-        FileIO --> StreamingService : gemt
+        UserController -> StreamingService : addUser(newUser)
+        UserController -> StreamingService : saveUsers()
+        StreamingService -> FileIO : saveData("data/users.csv")
 
-        StreamingService -> StreamingService : loginUser()
+        UserController -> TextUI : displayMsg("User created!")
+        UserController -> UserController : loginUser()
+        return
     end
 end
 
-StreamingService -> TextUI : displayMsg("Too many attempts")
-StreamingService -> StreamingService : showStartMenu()
+UserController -> TextUI : displayMsg("Too many attempts")
+UserController -> UserController : showStartMenu()
 
 @enduml

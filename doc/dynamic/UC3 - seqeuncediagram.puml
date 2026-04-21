@@ -1,30 +1,38 @@
 @startuml
-actor User
+
+actor Bruger
+
+participant UserController
 participant StreamingService
+participant Menu
 participant TextUI
 
-User -> StreamingService : loginUser()
+Bruger -> UserController : loginUser()
 
 loop maks 3 forsøg
-    StreamingService -> TextUI : promptText("Enter your username")
-    TextUI --> User : viser prompt
-    User -> TextUI : indtaster brugernavn
-    TextUI --> StreamingService : username
+    UserController -> TextUI : promptText("Enter your username")
+    TextUI --> Bruger : viser prompt
+    Bruger -> TextUI : indtaster brugernavn
+    TextUI --> UserController : username
 
-    StreamingService -> TextUI : promptText("Enter your password")
-    TextUI --> User : viser prompt
-    User -> TextUI : indtaster adgangskode
-    TextUI --> StreamingService : password
+    UserController -> TextUI : promptText("Enter your password")
+    TextUI --> Bruger : viser prompt
+    Bruger -> TextUI : indtaster adgangskode
+    TextUI --> UserController : password
+
+    UserController -> StreamingService : getUserList()
+    StreamingService --> UserController : ArrayList<User>
 
     alt login lykkedes
-        StreamingService -> TextUI : displayMsg("Login successful")
-        StreamingService -> StreamingService : showMainMenu(u)
-    else forkert login
-        StreamingService -> TextUI : displayMsg("Wrong username or password")
+        UserController -> TextUI : displayMsg("Login successful")
+        UserController -> Menu : run(user)
+    else OBS: forkert brugernavn eller password
+        UserController -> TextUI : displayMsg("Wrong username or password")
+        TextUI --> Bruger : viser fejlbesked og antal forsøg tilbage
     end
 end
 
-StreamingService -> TextUI : displayMsg("Too many attempts")
-StreamingService -> StreamingService : showStartMenu()
+UserController -> TextUI : displayMsg("Too many attempts")
+UserController -> Menu : showStartMenu()
 
 @enduml

@@ -1,15 +1,75 @@
 @startuml
-'https://plantuml.com/sequence-diagram
 
-autonumber
+actor Bruger
 
-== Initialization ==
+participant Menu
+participant MediaController
+participant StreamingService
+participant TextUI
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+Bruger -> Menu : run(user)
+Menu -> TextUI : displayMsg("3. Se sete medier  4. Se gemte medier")
+TextUI --> Bruger : viser valg
 
-== Repetition ==
+alt valg 3: Se sete medier
+    Menu -> MediaController : displayWatchedList(user)
+    MediaController -> StreamingService : user.getWatched()
+    StreamingService --> MediaController : ArrayList<Media>
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+    alt OBS: listen er tom
+        MediaController -> TextUI : displayMsg("You have not watched anything yet")
+        TextUI --> Bruger : viser fejlbesked
+        MediaController --> Menu : returnerer til hovedmenu
+    else listen har indhold
+        MediaController -> TextUI : displayMsg(nummereret liste)
+        TextUI --> Bruger : viser sete medier
+        Menu -> MediaController : manageMedia(user, watchedList)
+    end
+
+else valg 4: Se gemte medier
+    Menu -> MediaController : displaySavedList(user)
+    MediaController -> StreamingService : user.getSaved()
+    StreamingService --> MediaController : ArrayList<Media>
+
+    alt OBS: listen er tom
+        MediaController -> TextUI : displayMsg("You have no saved media")
+        TextUI --> Bruger : viser fejlbesked
+        MediaController --> Menu : returnerer til hovedmenu
+    else listen har indhold
+        MediaController -> TextUI : displayMsg(nummereret liste)
+        TextUI --> Bruger : viser gemte medier
+        Menu -> MediaController : manageMedia(user, savedList)
+    end
+end
+
+MediaController -> TextUI : promptText("Enter title:")
+TextUI --> Bruger : viser prompt
+Bruger -> TextUI : indtaster titel
+TextUI --> MediaController : titleChoice
+
+alt OBS: titel ikke fundet i listen
+    MediaController -> TextUI : displayMsg("Title not found, try again")
+    TextUI --> Bruger : viser fejlbesked
+    MediaController -> MediaController : manageMedia(user, list)
+else titel fundet
+    MediaController -> TextUI : displayMsg("1. Afspil  2. Fjern")
+    TextUI --> Bruger : viser to muligheder
+    Bruger -> TextUI : vælger 1 eller 2
+    TextUI --> MediaController : valg
+
+    alt valg 1: Afspil
+        MediaController -> MediaController : playMedia(chosen)
+        MediaController -> TextUI : displayMsg("[titel] afspilles nu...")
+        TextUI --> Bruger : viser afspilningsbesked
+        MediaController -> StreamingService : user.addToWatched(chosen)
+        MediaController -> StreamingService : saveWatchedMedia(user)
+
+    else valg 2: Fjern
+        MediaController -> StreamingService : user.removeFromSaved(chosen)
+        MediaController -> StreamingService : saveSavedMedia(user)
+        MediaController -> TextUI : displayMsg("[titel] er fjernet")
+        TextUI --> Bruger : viser bekræftelse
+    end
+end
+
 @enduml

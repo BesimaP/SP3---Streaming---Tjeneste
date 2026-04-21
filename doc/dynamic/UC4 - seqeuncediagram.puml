@@ -1,15 +1,77 @@
 @startuml
-'https://plantuml.com/sequence-diagram
 
-autonumber
+actor Bruger
 
-== Initialization ==
+participant Menu
+participant MediaController
+participant StreamingService
+participant TextUI
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+Bruger -> Menu : run(user)
 
-== Repetition ==
+alt valg 1: søg på titel
+    Menu -> MediaController : searchTitle()
+    MediaController -> TextUI : promptText("Enter title:")
+    TextUI --> Bruger : viser prompt
+    Bruger -> TextUI : indtaster søgeord
+    TextUI --> MediaController : query
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+    MediaController -> StreamingService : getMediaList()
+    StreamingService --> MediaController : ArrayList<Media>
+
+    alt OBS: ingen film/serie matcher søgningen
+        MediaController -> TextUI : displayMsg("No results found")
+        TextUI --> Bruger : viser fejlbesked
+        MediaController --> Menu : returnerer til hovedmenu
+    else resultater fundet
+        MediaController -> TextUI : displayMsg(nummereret liste)
+        TextUI --> Bruger : viser søgeresultater
+        Bruger -> TextUI : vælger nummer
+        TextUI --> MediaController : valg (int)
+    end
+
+else valg 2: søg på kategori
+    Menu -> MediaController : searchCategory()
+    MediaController -> TextUI : displayMsg("1. Crime  2. War  ...")
+    TextUI --> Bruger : viser kategorier
+    Bruger -> TextUI : vælger kategori
+    TextUI --> MediaController : kategori
+
+    MediaController -> StreamingService : getMediaList()
+    StreamingService --> MediaController : ArrayList<Media>
+
+    alt OBS: ingen film/serie matcher kategorien
+        MediaController -> TextUI : displayMsg("No results found")
+        TextUI --> Bruger : viser fejlbesked
+        MediaController --> Menu : returnerer til hovedmenu
+    else resultater fundet
+        MediaController -> TextUI : displayMsg(nummereret liste)
+        TextUI --> Bruger : viser søgeresultater
+        Bruger -> TextUI : vælger nummer
+        TextUI --> MediaController : valg (int)
+    end
+end
+
+MediaController -> TextUI : displayMsg("1. Afspil  2. Gem  3. Tilbage")
+TextUI --> Bruger : viser tre muligheder
+Bruger -> TextUI : vælger 1, 2 eller 3
+TextUI --> MediaController : valg
+
+alt valg 1: Afspil
+    MediaController -> MediaController : playMedia(chosen)
+    MediaController -> TextUI : displayMsg("[titel] afspilles nu...")
+    TextUI --> Bruger : viser afspilningsbesked
+    MediaController -> StreamingService : user.addToWatched(chosen)
+    MediaController -> StreamingService : saveWatchedMedia(user)
+
+else valg 2: Gem
+    MediaController -> StreamingService : user.addToSaved(chosen)
+    MediaController -> StreamingService : saveSavedMedia(user)
+    MediaController -> TextUI : displayMsg("Gemt!")
+    TextUI --> Bruger : viser bekræftelse
+
+else valg 3: Tilbage
+    MediaController --> Menu : returnerer til hovedmenu
+end
+
 @enduml

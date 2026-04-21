@@ -1,10 +1,18 @@
 @startuml
 !pragma layout smetana
-actor User
+
+actor Bruger
+
 participant Main
 participant StreamingService
+participant Menu
+participant UserController
 participant FileIO
 participant TextUI
+
+Main -> StreamingService : new StreamingService()
+StreamingService -> Menu : new Menu(...)
+StreamingService -> UserController : new UserController(...)
 
 Main -> StreamingService : startSystem()
 StreamingService -> TextUI : displayMsg("Welcome to BLLKstream")
@@ -19,20 +27,20 @@ note right of StreamingService : Opretter Series, Season\nog Episode-objekter
 
 StreamingService -> FileIO : readData("data/users.csv")
 FileIO --> StreamingService : ArrayList<String>
-note right of StreamingService : Opretter User-objekter
 
-alt ingen brugere
-    StreamingService -> StreamingService : registerUser()
-else brugere findes
-    StreamingService -> TextUI : displayMsg("\n1. Login\n2. Create User")
-    TextUI --> User : viser startmenu
+alt OBS: filen kan ikke læses
+    FileIO --> StreamingService : tom liste
+    StreamingService -> TextUI : displayMsg("Filen kunne ikke læses")
 end
 
-'Forklaring:
-'Main starter det hele ved at kalde startSystem()
-'StreamingService viser velkomstbesked via TextUI
-'StreamingService beder FileIO om at læse film, serier og brugere
-'FileIO sender data tilbage (de stiplede pile -->)
-'Til sidst tjekker StreamingService om der er brugere og viser enten startmenuen eller sender til registrering
+note right of StreamingService : Opretter User-objekter
+
+alt ingen brugere findes
+    StreamingService -> UserController : registerUser()
+else brugere findes
+    StreamingService -> Menu : showStartMenu()
+    Menu -> TextUI : displayMsg("1. Login\n2. Opret bruger")
+    TextUI --> Bruger : viser startmenu
+end
 
 @enduml
