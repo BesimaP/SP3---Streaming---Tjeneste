@@ -84,7 +84,13 @@ public class CatalogView extends Application {
         String folder = (media instanceof Movie) ? "filmplakater" : "serieforsider";
 
         // Byg stien til billedet - titlen skal matche filnavnet præcist
-        String path = "data/" + folder + "/" + media.getTitle() + ".jpg";
+        String fileName = media.getTitle()
+                .replace("'", "_")
+                .replace("ä", "ä")
+                .replace("&", "_");
+
+        String path = "data/" + folder + "/" + fileName + ".jpg";
+
         File imgFile = new File(path);
 
         // ImageView er den JavaFX-komponent der viser et billede
