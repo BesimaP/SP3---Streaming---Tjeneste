@@ -221,4 +221,8 @@ import java.util.ArrayList;
                 manageMedia(user, list);
             }
         }
+
+        public ArrayList<Media> getMediaList() {
+            return service.getMediaList();
+        }
     }

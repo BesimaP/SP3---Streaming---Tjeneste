@@ -5,12 +5,14 @@ public abstract class Media {
     private int releaseYear;
     private double rating;
     private ArrayList<Category> categories;
+    private String imagePath;
 
     public Media(String title, int releaseYear, double rating) {
         this.title = title;
         this.releaseYear = releaseYear;
         this.rating = rating;
         this.categories = new ArrayList<>();
+        this.imagePath = "";
     }
 
     public String getTitle(){
@@ -23,6 +25,10 @@ public abstract class Media {
 
     public double getRating(){
         return rating;
+    }
+
+    public String getImagePath(){
+        return imagePath;
     }
 
     public ArrayList<Category> getCategories() {

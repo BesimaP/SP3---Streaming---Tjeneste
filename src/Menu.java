@@ -26,7 +26,7 @@ import java.util.ArrayList;
         // ── Hovedmenu ─────────────────────────────────────
         // Viser valgmuligheder i hovedmenuen
         private void showMainMenu() {
-            ui.displayMsg("\n1. Search by title\n2. Search by category\n3. Watched list\n4. Saved list\n0. Exit");
+            ui.displayMsg("\n1. Search by title\n2. Search by category\n3. Watched list\n4. Saved list\n5. Vis katalog\n0. Exit");
         }
 
         // ── Run ───────────────────────────────────────────
@@ -57,6 +57,9 @@ import java.util.ArrayList;
                         if (!user.getSaved().isEmpty()) {
                             mediaController.manageMedia(user, user.getSaved());
                         }
+                        break;
+                    case "5":
+                        CatalogView.open(mediaController.getMediaList());
                         break;
                     case "0":
                         ui.displayMsg("Goodbye!");

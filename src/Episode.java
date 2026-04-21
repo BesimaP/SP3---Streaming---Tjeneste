@@ -18,9 +18,7 @@ public class Episode extends Media{
     @Override
     public void play() {
         System.out.println("Now playing: " + title + " (Episode " + episodeNumber + ")");
-
     }
-
 
     public int getEpisodeNumber() {
         return episodeNumber;
