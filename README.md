@@ -1,14 +1,14 @@
 # 🎬 BLLKstream
 
-> Tekstbaseret streaming tjeneste bygget i Java — 1. semester, SP3
+> Text-based streaming service built in Java — 1st semester, SP3
 
-BLLKstream er et konsolbaseret streaming system hvor brugere kan oprette en profil, logge ind, søge i et katalog af film og serier, afspille medier og gemme favoritter. Projektet er udviklet som en del af SP3-opgaven på 1. semester.
+BLLKstream is a console-based streaming system where users can create a profile, log in, search a catalog of movies and series, play media, and save favourites. The project was developed as part of the SP3 assignment in the 1st semester.
 
 ---
 
-## Gruppemedlemmer
+## Group Members
 
-| Navn | GitHub |
+| Name | GitHub |
 |------|--------|
 | Besima | |
 | Louise | |
@@ -17,47 +17,47 @@ BLLKstream er et konsolbaseret streaming system hvor brugere kan oprette en prof
 
 ---
 
-## Funktioner
+## Features
 
-- **Opret bruger & login** — med validering og maks 3 forsøg
-- **Søg på titel eller kategori** — find film og serier hurtigt
-- **Afspil medier** — marker som set og tilføj til sete medier
-- **Gem favoritter** — tilføj og fjern medier fra din gemmede liste
-- **Se dine lister** — overblik over sete og gemte medier
-- **Datapersistens** — brugere og lister gemmes i CSV-filer
-- **JavaFX katalog** ⭐ — grafisk vindue med filmplakater og serieforsider
+- **Create user & login** — with validation and max 3 attempts
+- **Search by title or category** — find movies and series quickly
+- **Play media** — mark as watched and add to watched list
+- **Save favourites** — add and remove media from your saved list
+- **View your lists** — overview of watched and saved media
+- **Data persistence** — users and lists are saved in CSV files
+- **JavaFX catalog** ⭐ — graphical window with movie posters and series covers
 
 ---
 
-## Teknologi
+## Technology
 
 - Java 17+
-- JavaFX (ekstra feature — grafisk katalog)
-- CSV-filer til datapersistens
-- Git til versionsstyring
+- JavaFX (extra feature — graphical catalog)
+- CSV files for data persistence
+- Git for version control
 
 ---
 
-## Sådan kører du programmet
+## How to Run
 
-### Krav
-- Java 17 eller nyere installeret
-- JavaFX SDK (kun nødvendigt for katalog-funktionen)
+### Requirements
+- Java 17 or newer installed
+- JavaFX SDK (only required for the catalog feature)
 
-### Kør programmet
+### Run the program
 
 ```bash
-# Kompiler
+# Compile
 javac -cp . *.java
 
-# Kør
+# Run
 java Main
 ```
 
-### Kør med JavaFX katalog
+### Run with JavaFX catalog
 
 ```bash
-java --module-path /sti/til/javafx-sdk/lib \
+java --module-path /path/to/javafx-sdk/lib \
      --add-modules javafx.controls,javafx.fxml \
      --enable-native-access=javafx.graphics \
      Main
@@ -65,45 +65,45 @@ java --module-path /sti/til/javafx-sdk/lib \
 
 ---
 
-## Projektstruktur
+## Project Structure
 
 ```
 BLLKstream/
-├── Main.java               # Indgangspunkt
-├── StreamingService.java   # Datalaget — loader og gemmer data
-├── Menu.java               # Menuer og navigation
-├── UserController.java     # UC2: Opret bruger / UC3: Login
-├── MediaController.java    # UC4: Søg & afspil / UC5: Administrer lister
-├── CatalogView.java        # JavaFX grafisk katalog (ekstra feature)
-├── Media.java              # Abstrakt klasse for film og serier
-├── Movie.java              # Film
-├── Series.java             # Serier
-├── User.java               # Bruger
+├── Main.java               # Entry point
+├── StreamingService.java   # Data layer — loads and saves data
+├── Menu.java               # Menus and navigation
+├── UserController.java     # UC2: Create user / UC3: Login
+├── MediaController.java    # UC4: Search & play / UC5: Manage lists
+├── CatalogView.java        # JavaFX graphical catalog (extra feature)
+├── Media.java              # Abstract class for movies and series
+├── Movie.java              # Movie
+├── Series.java             # Series
+├── User.java               # User
 └── data/
-    ├── film.csv            # 100 film
-    ├── serier.csv          # 100 serier
-    ├── users.csv           # Brugere
-    ├── filmplakater/       # Billedfiler til film
-    └── serieforsider/      # Billedfiler til serier
+    ├── movies.csv          # 100 movies
+    ├── series.csv          # 100 series
+    ├── users.csv           # Users
+    ├── filmplakater/       # Movie poster images
+    └── serieforsider/      # Series cover images
 ```
 
 ---
 
 ## Use Cases
 
-| UC | Navn | Beskrivelse |
+| UC | Name | Description |
 |----|------|-------------|
-| UC1 | Systemstart | Indlæs data og vis startmenu |
-| UC2 | Opret bruger | Registrer ny bruger med brugernavn og adgangskode |
-| UC3 | Login | Log ind med eksisterende bruger |
-| UC4 | Søg og afspil | Søg på titel/kategori, afspil eller gem medie |
-| UC5 | Administrer lister | Se og administrer sete og gemte medier |
+| UC1 | System Start | Load data and show start menu |
+| UC2 | Create User | Register a new user with username and password |
+| UC3 | Login | Log in with an existing user |
+| UC4 | Search & Play | Search by title/category, play or save media |
+| UC5 | Manage Lists | View and manage watched and saved media |
 
 ---
 
-## Arkitektur
+## Architecture
 
-Projektet følger en lagdelt MVC-inspireret arkitektur:
+The project follows a layered MVC-inspired architecture:
 
 ```
 Menu  ──────────────────────────────┐
@@ -113,7 +113,7 @@ Menu  ────────────────────────�
   │     loginUser()                 │
   │                                 ▼
   └── MediaController          StreamingService
-        searchTitle()          (datalaget)
+        searchTitle()          (data layer)
         searchCategory()
         playMedia()
         manageMedia()
@@ -121,10 +121,10 @@ Menu  ────────────────────────�
 
 ---
 
-## Samarbejde
+## Collaboration
 
-- Klassediagram og sekvensdiagrammer som fælles reference
-- Kanban board til opgavestyring
-- Git med hyppige, beskrivende commits
-- Beskrivende kommentarer i koden for fælles forståelse
-- Pair programming til de svære dele
+- Class diagram and sequence diagrams as a shared reference
+- Kanban board for task management
+- Git with frequent, descriptive commits
+- Descriptive comments in the code for shared understanding
+- Pair programming for the difficult parts
