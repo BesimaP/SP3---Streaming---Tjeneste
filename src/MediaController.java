@@ -155,7 +155,7 @@ import java.util.ArrayList;
                 chosen.play();
             }
             user.addToWatched(chosen);
-            service.saveMedia(user);
+            service.saveMedia(user, user.getWatched(),"data/watchMedia.csv");
         }
 
         // ══════════════════════════════════════════════════
@@ -189,7 +189,7 @@ import java.util.ArrayList;
         }
 
         // Lader brugeren afspille eller fjerne en film/serie fra en liste
-        public void manageMedia(User user, ArrayList<Media> list) {
+        public void manageMedia(User user, ArrayList<Media> list, String fileName) {
             String titleChoice = ui.promptText("Enter title to play or remove: ");
 
             boolean found = false;
@@ -208,7 +208,7 @@ import java.util.ArrayList;
                     } else if (choice == 2) {
                         // Fjern fra listen og opdater filen
                         list.remove(m);
-                        service.saveMedia(user);
+                        service.saveMedia(user, list, fileName);
                         ui.displayMsg(titleChoice + " has been removed");
                     }
                     return;
@@ -218,7 +218,7 @@ import java.util.ArrayList;
             // Titlen blev ikke fundet → prøv igen
             if (!found) {
                 ui.displayMsg("Title not found, try again");
-                manageMedia(user, list);
+                manageMedia(user, list,fileName);
             }
         }
 
@@ -227,7 +227,7 @@ import java.util.ArrayList;
 
             if(choice == 1){
                 user.addToSaved(chosen);
-                service.saveMedia(user);
+                service.saveMedia(user, user.getSaved(), "data/savedMedia.csv");
                 ui.displayMsg(chosen.getTitle() + " has been saved");
 
             }else if (choice == 2){

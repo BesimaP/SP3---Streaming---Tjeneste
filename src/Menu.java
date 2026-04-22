@@ -49,13 +49,13 @@ import java.util.ArrayList;
                     case "3":
                         mediaController.displayWatchedList(user);
                         if (!user.getWatched().isEmpty()) {
-                            mediaController.manageMedia(user, user.getWatched());
+                            mediaController.manageMedia(user, user.getWatched(), "data/watchedMedia.csv");
                         }
                         break;
                     case "4":
                         mediaController.displaySavedList(user);
                         if (!user.getSaved().isEmpty()) {
-                            mediaController.manageMedia(user, user.getSaved());
+                            mediaController.manageMedia(user, user.getSaved(), "data/savedMedia.csv");
                         }
                         break;
                     case "5":

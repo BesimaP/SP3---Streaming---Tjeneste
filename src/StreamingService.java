@@ -13,14 +13,13 @@ import Util.FileIO;
 
         // UI-objekt til at vise beskeder og læse input
         private TextUI ui;
-        private FileIO fileIO;
 
         // Controllers til brugere, media og menuer
         private UserController userController;
         private MediaController mediaController;
         private Menu menu;
 
-        // ── Konstruktør ───────────────────────────────────
+        // ── Konstruktør ────────────────────────────────────────
         public StreamingService() {
             this.mediaList = new ArrayList<>();
             this.userList = new ArrayList<>();
@@ -33,12 +32,10 @@ import Util.FileIO;
             this.userController.setMenu(menu);
         }
 
-        // ══════════════════════════════════════════════════
-        // UC1: StartSystem
-        // ══════════════════════════════════════════════════
+        // ════════════════════ UC1: StartSystem ════════════════════
         public void startSystem() {
 
-            // Vis velkomstbesked
+            // Velkomstbesked
             ui.displayMsg("\uD83C\uDFAC\uD83C\uDF7F Welcome to BLLKstream \uD83D\uDCFA\uD83C\uDFA5");
 
             // ── Indlæs film fra CSV ───────────────────────
@@ -51,10 +48,10 @@ import Util.FileIO;
                 String genre  = parts[2].trim();
                 double rating = Double.parseDouble(parts[3].trim().replace(",", "."));
 
-                // Opret film-objekt
+                // Opretter film-objekt
                 Movie movie = new Movie(title, year, rating);
 
-                // Tilføj kategorier
+                // Tilføjer kategorier
                 for (String g : genre.split(",")) {
                     Category c = parseCategory(g);
                     if (c != null) movie.addCategory(c);
@@ -75,17 +72,16 @@ import Util.FileIO;
                 double rating = Double.parseDouble(parts[3].trim().replace(",", "."));
                 String season = parts[4].trim();
 
-                // Opret serie-objekt
+                // Opretter serie-objekt
                 Series series = new Series(title, year, rating);
 
-                // Tilføj kategorier
+                // Tilføjer kategorier
                 for (String g : genre.split(",")) {
                     Category c = parseCategory(g);
                     if (c != null) series.addCategory(c);
                 }
 
-                // Opret sæsoner og episoder
-                // Format: "1-8, 2-22" → sæson 1 har 8 episoder, sæson 2 har 22
+                // Opretter sæsoner og episoder. Format: "1-8, 2-22" → sæson 1 har 8 episoder, sæson 2 har 22
                 for (String s : season.split(",")) {
                     String[] seasonData = s.split("-");
                     int seasonNumber = Integer.parseInt(seasonData[0].trim());
@@ -93,7 +89,7 @@ import Util.FileIO;
 
                     Season newSeason = new Season(seasonNumber);
                     for (int i = 1; i <= episodeCount; i++) {
-                        newSeason.addEpisode(new Episode("Episode " + i, i, i, i));
+                        newSeason.addEpisode(new Episode("Episode " + i, i, 0, 0.0));
                     }
                     series.addSeason(newSeason);
                 }
@@ -102,8 +98,52 @@ import Util.FileIO;
             }
 
             // ── Indlæs brugere fra fil ────────────────────
-            // Regnvejrsdag: hvis filen ikke findes returnerer FileIO en tom liste
+            // hvis filen ikke findes returnerer FileIO en tom liste
             userList = loadUsers();
+
+            // ── Indlæs sete medier fra CSV ────────────────
+            // Match userID og titel tilbage til de rigtige objekter
+            ArrayList<String> watchedData = FileIO.readData("data/watchedMedia.csv");
+            for (String line : watchedData) {
+                if (line.trim().isEmpty()) continue;
+                String[] parts = line.split(",");
+                String userId    = parts[0].trim();
+                String mediaTitle = parts[1].trim();
+
+                // Find brugeren med det matchende ID
+                for (User u : userList) {
+                    if (u.getId().equals(userId)) {
+                        // Find mediet med den matchende titel
+                        for (Media m : mediaList) {
+                            if (m.getTitle().equals(mediaTitle)) {
+                                u.addToWatched(m);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // ── Indlæs gemte medier fra CSV ───────────────
+            // Samme logik som watched — match userID og titel
+            ArrayList<String> savedData = FileIO.readData("data/savedMedia.csv");
+            for (String line : savedData) {
+                if (line.trim().isEmpty()) continue;
+                String[] parts = line.split(",");
+                String userId    = parts[0].trim();
+                String mediaTitle = parts[1].trim();
+
+                // Find brugeren med det matchende ID
+                for (User u : userList) {
+                    if (u.getId().equals(userId)) {
+                        // Find mediet med den matchende titel
+                        for (Media m : mediaList) {
+                            if (m.getTitle().equals(mediaTitle)) {
+                                u.addToSaved(m);
+                            }
+                        }
+                    }
+                }
+            }
 
             // Ingen brugere → opret ny (UC2), ellers vis startmenu
             if (userList.isEmpty()) {
@@ -113,7 +153,7 @@ import Util.FileIO;
             }
         }
 
-        // ── Hjælpemetoder ─────────────────────────────────
+        // ── Hjælpemetoder ───────────────────────────────────────
 
         // Oversætter tekst fra CSV til Category-objekt
         // Eks: "crime" → Category.Crime | returnerer null hvis ukendt
@@ -154,15 +194,21 @@ import Util.FileIO;
         }
 
 
-        public void saveMedia(User user){
-            ArrayList<String>data = new ArrayList<>();
-            for(Media media : user.getSaved()){
+        //Gemmer en brugeres media-liste (watched eller saved) til en CSV-fil
+        public void saveMedia(User user, ArrayList<Media> list, String fileName){
+            ArrayList<String> data = new ArrayList<>();
+            for(Media media : list){
                 data.add(user.getId() + "," + media.getTitle());
             }
-            FileIO.saveData(data, "data/savedMedia.csv", "userID,Title");
+            FileIO.saveData(data, fileName, "userID,Title");
         }
 
-        // ── Getters ───────────────────────────────────────
+        // Tilføjer en bruger til listen
+        public void addUser(User u) {
+            userList.add(u);
+        }
+
+        // ── Getters ────────────────────────────────────────
 
         public ArrayList<Media> getMediaList() {
             return mediaList;
@@ -174,10 +220,5 @@ import Util.FileIO;
 
         public TextUI getUi() {
             return ui;
-        }
-
-        // Tilføjer en bruger til listen
-        public void addUser(User u) {
-            userList.add(u);
         }
     }

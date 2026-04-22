@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Series extends Media{
     private ArrayList<Season> seasons;
-    private TextUI ui;
 
     public Series(String title, int relaseYear, double rating) {
         super(title,relaseYear,rating);
@@ -25,7 +24,7 @@ public class Series extends Media{
 
     @Override
     public void play(){
-        ui.displayMsg(getTitle() + " is now playing...");
+        System.out.println(getTitle() + " is now playing...");
     }
 
     @Override

@@ -33,7 +33,7 @@ public class User {
     }
 
     public void removeFromSaved(Media m){
-        if (!saved.contains(m)) {
+        if (saved.contains(m)) {
             saved.remove(m);
         }
     }
