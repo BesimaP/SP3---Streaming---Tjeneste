@@ -13,7 +13,7 @@ class StreamingService {
     +startSystem()
     +saveUsers()
     +Category parseCategory(String genre)
-    +saveSavedMedia(User user)
+    +saveMedia(User user, ArrayList<Media> list, String fileName)
     +ArrayList<Media> getMediaList()
     +ArrayList<User> getUserList()
     +TextUI getUi()
@@ -44,12 +44,13 @@ class MediaController {
     -StreamingService service
     -TextUI ui
     --
-    +searchTitle()
-    +searchCategory()
+    +searchTitle(User user)
+    +searchCategory(User user)
     +displayWatchedList(User user)
     +displaySavedList(User user)
-    +manageMedia(User user, ArrayList<Media> list)
-    -playMedia(Media chosen)
+    +manageMedia(User user, ArrayList<Media> list, String fileName)
+    +playOrSave(Media chosen, User user)
+    -playMedia(Media chosen, User user)
 }
 
 abstract class Media {
@@ -59,6 +60,7 @@ abstract class Media {
     -ArrayList<Category> categories
     --
     +String getTitle()
+    +int getReleaseYear()
     +double getRating()
     +addCategory(Category c)
     +ArrayList<Category> getCategories()
@@ -66,7 +68,6 @@ abstract class Media {
 }
 
 class Movie {
-    -int duration
     --
     +play()
 }
@@ -76,21 +77,23 @@ class Series {
     --
     +addSeason(Season s)
     +int getNumberOfSeasons()
+    +ArrayList<Season> getSeasons()
     +play()
 }
 
 class Season {
     -int seasonNumber
-    -int year
     -ArrayList<Episode> episodes
     --
+    +int getSeasonNumber()
+    +ArrayList<Episode> getEpisodes()
     +addEpisode(Episode e)
 }
 
 class Episode {
     -int episodeNumber
-    -int duration
     --
+    +String getTitle()
     +play()
 }
 
@@ -105,6 +108,11 @@ class User {
     +addToWatched(Media m)
     +addToSaved(Media m)
     +removeFromSaved(Media m)
+    +String getId()
+    +String getUsername()
+    +String getPassword()
+    +ArrayList<Media> getWatched()
+    +ArrayList<Media> getSaved()
 }
 
 enum Category {
@@ -134,13 +142,13 @@ package Util {
 ' Relationer
 Main --> StreamingService
 
-StreamingService *-- UserController
-StreamingService *-- MediaController
-StreamingService *-- Menu
+StreamingService *-- UserController : "has a"
+StreamingService *-- MediaController : "has a"
+StreamingService *-- Menu : "has a"
 StreamingService --> FileIO
 StreamingService --> TextUI
-StreamingService --> User
-StreamingService --> Media
+StreamingService *-- User : "has a"
+StreamingService *-- Media : "has a"
 
 Menu --> UserController
 Menu --> MediaController
@@ -151,13 +159,13 @@ UserController --> TextUI
 
 MediaController --> TextUI
 
-Media <|-- Movie
-Media <|-- Series
-Series *-- Season
-Season *-- Episode
-Media <|-- Episode
-Media --> Category
+Media <|-- Movie : "is a"
+Media <|-- Series : "is a"
+Media <|-- Episode : "is a"
+Series *-- Season : "has a"
+Season *-- Episode : "has a"
+Media *-- Category : "has a"
 
-User --> Media : watched/saved
+User --> Media : "watched/saved"
 
 @enduml

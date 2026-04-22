@@ -10,7 +10,7 @@ participant TextUI
 Bruger -> Menu : run(user)
 
 alt valg 1: søg på titel
-    Menu -> MediaController : searchTitle()
+    Menu -> MediaController : searchTitle(user)
     MediaController -> TextUI : promptText("Enter title:")
     TextUI --> Bruger : viser prompt
     Bruger -> TextUI : indtaster søgeord
@@ -31,7 +31,7 @@ alt valg 1: søg på titel
     end
 
 else valg 2: søg på kategori
-    Menu -> MediaController : searchCategory()
+    Menu -> MediaController : searchCategory(user)
     MediaController -> TextUI : displayMsg("1. Crime  2. War  ...")
     TextUI --> Bruger : viser kategorier
     Bruger -> TextUI : vælger kategori
@@ -52,26 +52,23 @@ else valg 2: søg på kategori
     end
 end
 
-MediaController -> TextUI : displayMsg("1. Afspil  2. Gem  3. Tilbage")
-TextUI --> Bruger : viser tre muligheder
-Bruger -> TextUI : vælger 1, 2 eller 3
+MediaController -> TextUI : displayMsg("Press 1 to save\nPress 2 to play")
+TextUI --> Bruger : viser to muligheder
+Bruger -> TextUI : vælger 1 eller 2
 TextUI --> MediaController : valg
 
-alt valg 1: Afspil
-    MediaController -> MediaController : playMedia(chosen)
-    MediaController -> TextUI : displayMsg("[titel] afspilles nu...")
-    TextUI --> Bruger : viser afspilningsbesked
-    MediaController -> StreamingService : user.addToWatched(chosen)
-    MediaController -> StreamingService : saveWatchedMedia(user)
-
-else valg 2: Gem
-    MediaController -> StreamingService : user.addToSaved(chosen)
-    MediaController -> StreamingService : saveSavedMedia(user)
+alt valg 1: Gem
+    MediaController -> MediaController : user.addToSaved(chosen)
+    MediaController -> StreamingService : saveMedia(user, user.getSaved(), "data/savedMedia.csv")
     MediaController -> TextUI : displayMsg("Gemt!")
     TextUI --> Bruger : viser bekræftelse
 
-else valg 3: Tilbage
-    MediaController --> Menu : returnerer til hovedmenu
+else valg 2: Afspil
+    MediaController -> MediaController : playMedia(chosen, user)
+    MediaController -> TextUI : displayMsg("[titel] afspilles nu...")
+    TextUI --> Bruger : viser afspilningsbesked
+    MediaController -> MediaController : user.addToWatched(chosen)
+    MediaController -> StreamingService : saveMedia(user, user.getWatched(), "data/watchedMedia.csv")
 end
 
 @enduml

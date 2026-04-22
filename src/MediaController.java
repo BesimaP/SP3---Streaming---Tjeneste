@@ -1,19 +1,20 @@
 import Util.TextUI;
 import java.util.ArrayList;
 
+    // MediaController håndterer al logik omkring søgning og afspilning af medier
+    // samt visning og styring af brugerens lister (UC4 og UC5)
     public class MediaController {
         private StreamingService service;
         private TextUI ui;
 
         // ── Konstruktør ───────────────────────────────────
+        // Henter UI-objektet fra StreamingService så vi kan vise beskeder
         public MediaController(StreamingService service) {
             this.service = service;
             this.ui = service.getUi();
         }
 
-        // ══════════════════════════════════════════════════
-        // UC4: BrowseMedia
-        // ══════════════════════════════════════════════════
+        // ═══════════════ UC4: BrowseMedia ══════════════════════════════════
 
         // Søger efter film/serier der indeholder søgeordet i titlen
         public void searchTitle(User user) {
@@ -48,6 +49,7 @@ import java.util.ArrayList;
                 return;
             }
 
+            // Lad brugeren afspille eller gemme det valgte medie
             playOrSave(results.get(mediaChoice - 1), user);
         }
 
@@ -108,12 +110,13 @@ import java.util.ArrayList;
                 ui.displayMsg("Invalid choice");
                 return;
             }
-            // Afspil den valgte film/serie
-            playOrSave(results.get(mediaChoice -1),user);
+
+            // Lad brugeren afspille eller gemme det valgte medie
+            playOrSave(results.get(mediaChoice - 1), user);
         }
 
         // Afspiller en film eller serie
-        // Hvis det er en serie → vælg sæson og episode først
+        // Hvis det er en serie → lad brugeren vælge sæson og episode først
         private void playMedia(Media chosen, User user) {
             if (chosen instanceof Series) {
                 Series series = (Series) chosen;
@@ -154,17 +157,17 @@ import java.util.ArrayList;
                 // Film → afspil direkte
                 chosen.play();
             }
+
+            // Tilføj til watched-listen og gem til CSV
             user.addToWatched(chosen);
-            service.saveMedia(user, user.getWatched(),"data/watchMedia.csv");
+            service.saveMedia(user, user.getWatched(), "data/watchedMedia.csv");
         }
 
-        // ══════════════════════════════════════════════════
-        // UC5: ManageLists
-        // ══════════════════════════════════════════════════
+        // ═══════════════ UC5: ManageLists ══════════════════════════════════
 
         // Viser brugerens sete film/serier
         public void displayWatchedList(User user) {
-            // OBS: tom liste → fejlbesked og returner
+            // Tom liste → fejlbesked og returner
             if (user.getWatched().isEmpty()) {
                 ui.displayMsg("Watched list is empty");
                 return;
@@ -177,7 +180,7 @@ import java.util.ArrayList;
 
         // Viser brugerens gemte film/serier
         public void displaySavedList(User user) {
-            // OBS: tom liste → fejlbesked og returner
+            // Tom liste → fejlbesked og returner
             if (user.getSaved().isEmpty()) {
                 ui.displayMsg("Saved list is empty");
                 return;
@@ -188,7 +191,8 @@ import java.util.ArrayList;
             }
         }
 
-        // Lader brugeren afspille eller fjerne en film/serie fra en liste
+        // Lader brugeren afspille eller fjerne et medie fra en liste
+        // fileName bruges til at gemme den opdaterede liste i den rigtige CSV-fil
         public void manageMedia(User user, ArrayList<Media> list, String fileName) {
             String titleChoice = ui.promptText("Enter title to play or remove: ");
 
@@ -197,16 +201,15 @@ import java.util.ArrayList;
                 if (m.getTitle().equals(titleChoice)) {
                     found = true;
 
-                    // Film fundet → vis valg
+                    // Medie fundet → vis valg
                     ui.displayMsg("You have chosen: " + titleChoice);
                     int choice = ui.promptNumeric("1. Play  2. Remove");
 
                     if (choice == 1) {
-                        // Afspil og tilføj til watched-listen
-                        playMedia(m,user);
-                        user.addToWatched(m);
+                        // Afspil mediet — addToWatched og gem håndteres i playMedia()
+                        playMedia(m, user);
                     } else if (choice == 2) {
-                        // Fjern fra listen og opdater filen
+                        // Fjern fra listen og gem den opdaterede liste til CSV
                         list.remove(m);
                         service.saveMedia(user, list, fileName);
                         ui.displayMsg(titleChoice + " has been removed");
@@ -218,25 +221,30 @@ import java.util.ArrayList;
             // Titlen blev ikke fundet → prøv igen
             if (!found) {
                 ui.displayMsg("Title not found, try again");
-                manageMedia(user, list,fileName);
+                manageMedia(user, list, fileName);
             }
         }
 
-        public void playOrSave(Media chosen, User user){
-            int choice = ui.promptNumeric( " \n Press 1 to save \n Press 2 to play");
+        // Lader brugeren vælge om de vil gemme eller afspille et medie
+        public void playOrSave(Media chosen, User user) {
+            int choice = ui.promptNumeric("\nPress 1 to save \nPress 2 to play");
 
-            if(choice == 1){
+            if (choice == 1) {
+                // Tilføj til saved-listen og gem til CSV
                 user.addToSaved(chosen);
                 service.saveMedia(user, user.getSaved(), "data/savedMedia.csv");
                 ui.displayMsg(chosen.getTitle() + " has been saved");
-
-            }else if (choice == 2){
+            } else if (choice == 2) {
+                // Afspil mediet
                 playMedia(chosen, user);
-            }else{
-                ui.promptNumeric("Invalid choice, try again.  Press 1 to save \n Press 2 to play");
+            } else {
+                // Ugyldigt valg → prøv igen
+                ui.displayMsg("Invalid choice, try again");
+                playOrSave(chosen, user);
             }
         }
 
+        // Returnerer den samlede medieliste fra StreamingService
         public ArrayList<Media> getMediaList() {
             return service.getMediaList();
         }

@@ -17,13 +17,13 @@ alt valg 3: Se sete medier
     StreamingService --> MediaController : ArrayList<Media>
 
     alt OBS: listen er tom
-        MediaController -> TextUI : displayMsg("You have not watched anything yet")
+        MediaController -> TextUI : displayMsg("Watched list is empty")
         TextUI --> Bruger : viser fejlbesked
         MediaController --> Menu : returnerer til hovedmenu
     else listen har indhold
         MediaController -> TextUI : displayMsg(nummereret liste)
         TextUI --> Bruger : viser sete medier
-        Menu -> MediaController : manageMedia(user, watchedList)
+        Menu -> MediaController : manageMedia(user, watchedList, "data/watchedMedia.csv")
     end
 
 else valg 4: Se gemte medier
@@ -32,13 +32,13 @@ else valg 4: Se gemte medier
     StreamingService --> MediaController : ArrayList<Media>
 
     alt OBS: listen er tom
-        MediaController -> TextUI : displayMsg("You have no saved media")
+        MediaController -> TextUI : displayMsg("Saved list is empty")
         TextUI --> Bruger : viser fejlbesked
         MediaController --> Menu : returnerer til hovedmenu
     else listen har indhold
         MediaController -> TextUI : displayMsg(nummereret liste)
         TextUI --> Bruger : viser gemte medier
-        Menu -> MediaController : manageMedia(user, savedList)
+        Menu -> MediaController : manageMedia(user, savedList, "data/savedMedia.csv")
     end
 end
 
@@ -50,23 +50,23 @@ TextUI --> MediaController : titleChoice
 alt OBS: titel ikke fundet i listen
     MediaController -> TextUI : displayMsg("Title not found, try again")
     TextUI --> Bruger : viser fejlbesked
-    MediaController -> MediaController : manageMedia(user, list)
+    MediaController -> MediaController : manageMedia(user, list, fileName)
 else titel fundet
-    MediaController -> TextUI : displayMsg("1. Afspil  2. Fjern")
+    MediaController -> TextUI : displayMsg("1. Play  2. Remove")
     TextUI --> Bruger : viser to muligheder
     Bruger -> TextUI : vælger 1 eller 2
     TextUI --> MediaController : valg
 
     alt valg 1: Afspil
-        MediaController -> MediaController : playMedia(chosen)
+        MediaController -> MediaController : playMedia(chosen, user)
         MediaController -> TextUI : displayMsg("[titel] afspilles nu...")
         TextUI --> Bruger : viser afspilningsbesked
-        MediaController -> StreamingService : user.addToWatched(chosen)
-        MediaController -> StreamingService : saveWatchedMedia(user)
+        MediaController -> MediaController : user.addToWatched(chosen)
+        MediaController -> StreamingService : saveMedia(user, user.getWatched(), "data/watchedMedia.csv")
 
     else valg 2: Fjern
-        MediaController -> StreamingService : user.removeFromSaved(chosen)
-        MediaController -> StreamingService : saveSavedMedia(user)
+        MediaController -> MediaController : list.remove(chosen)
+        MediaController -> StreamingService : saveMedia(user, list, fileName)
         MediaController -> TextUI : displayMsg("[titel] er fjernet")
         TextUI --> Bruger : viser bekræftelse
     end

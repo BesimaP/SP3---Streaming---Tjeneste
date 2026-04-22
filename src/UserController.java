@@ -1,5 +1,8 @@
 import Util.TextUI;
 
+    // UserController håndterer al logik omkring oprettelse og login af brugere
+    // Den kommunikerer med StreamingService for at gemme og hente brugerdata (UC2 og UC3)
+
     public class UserController {
 
         private StreamingService service;
@@ -17,10 +20,7 @@ import Util.TextUI;
             this.menu = menu;
         }
 
-        // ══════════════════════════════════════════════════
-        // UC2: RegisterUser
-        // Opretter en ny bruger – maks 3 forsøg
-        // ══════════════════════════════════════════════════
+        // ══════════════ UC2: RegisterUser ══════════════════════════════════
         public void registerUser() {
             int attempts = 0;
             while (attempts < 3) {
@@ -67,10 +67,7 @@ import Util.TextUI;
             menu.showStartMenu();
         }
 
-        // ══════════════════════════════════════════════════
-        // UC3: LoginUser
-        // Logger brugeren ind – maks 3 forsøg
-        // ══════════════════════════════════════════════════
+        // ═══════════════ UC3: LoginUser ═══════════════════════════════════
         public void loginUser() {
             int attempts = 0;
 
