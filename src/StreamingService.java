@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.ArrayList;
 import Util.TextUI;
 import Util.FileIO;
@@ -13,6 +14,7 @@ import Util.FileIO;
 
         // UI-objekt til at vise beskeder og læse input
         private TextUI ui;
+        private FileIO fileIO;
 
         // Controllers til brugere, media og menuer
         private UserController userController;

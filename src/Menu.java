@@ -44,7 +44,7 @@ import java.util.ArrayList;
                         mediaController.searchTitle();
                         break;
                     case "2":
-                        mediaController.searchCategory();
+                        mediaController.searchCategory(user);
                         break;
                     case "3":
                         mediaController.displayWatchedList(user);
