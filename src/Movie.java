@@ -16,7 +16,6 @@ public class Movie extends Media{
 
     @Override
     public String toString() {
-        // Viser titel, år, rating og varighed
         return super.toString();
     }
 }
