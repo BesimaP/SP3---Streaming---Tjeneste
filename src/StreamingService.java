@@ -153,11 +153,7 @@ import Util.FileIO;
         }
 
         public void saveWatchMedia(){
-            ArrayList<String> data = new ArrayList<>();
-            for (mediaList : mediaList) {
-                data.add(u.getId() + "," + u.getUsername() + "," + u.getPassword());
-            }
-            FileIO.saveData(data, "data/users.csv", "userID,username,password");
+
         }
 
         public void saveSavedMedia(){
