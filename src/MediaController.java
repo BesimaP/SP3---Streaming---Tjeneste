@@ -109,7 +109,6 @@ import java.util.ArrayList;
                 ui.displayMsg("Invalid choice");
                 return;
             }
-
             // Afspil den valgte film/serie
             playMedia(results.get(mediaChoice - 1));
         }
@@ -219,6 +218,21 @@ import java.util.ArrayList;
             if (!found) {
                 ui.displayMsg("Title not found, try again");
                 manageMedia(user, list);
+            }
+        }
+
+        public void playOrSave(Media chosen, User user){
+            int choice = ui.promptNumeric( " \n Press 1 to save \n Press 2 to play");
+
+            if(choice == 1){
+                user.addToSaved(chosen);
+                service.saveSavedMedia(user);
+                ui.displayMsg(chosen.getTitle() + " has been saved");
+
+            }else if (choice == 2){
+                playMedia(chosen, user);
+            }else{
+                ui.promptNumeric("Invalid choice, try again.  Press 1 to save \n Press 2 to play");
             }
         }
 
