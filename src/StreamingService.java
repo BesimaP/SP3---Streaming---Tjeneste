@@ -1,4 +1,3 @@
-import java.io.File;
 import java.util.ArrayList;
 import Util.TextUI;
 import Util.FileIO;
@@ -154,15 +153,8 @@ import Util.FileIO;
             FileIO.saveData(data, "data/users.csv", "userID,username,password");
         }
 
-        public void saveWatchMedia(User user){
-            ArrayList<String>data = new ArrayList<>();
-            for(Media media : user.getWatched()){
-                data.add(user.getId() + "," + media.getTitle());
-            }
-            FileIO.saveData(data,"data/watchedMedia.csv", "userID,Title");
-        }
 
-        public void saveSavedMedia(User user){
+        public void saveMedia(User user){
             ArrayList<String>data = new ArrayList<>();
             for(Media media : user.getSaved()){
                 data.add(user.getId() + "," + media.getTitle());

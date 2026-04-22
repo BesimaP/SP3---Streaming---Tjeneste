@@ -13,6 +13,7 @@ class StreamingService {
     +startSystem()
     +saveUsers()
     +Category parseCategory(String genre)
+    +saveSavedMedia(User user)
     +ArrayList<Media> getMediaList()
     +ArrayList<User> getUserList()
     +TextUI getUi()

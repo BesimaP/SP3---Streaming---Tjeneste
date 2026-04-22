@@ -155,7 +155,7 @@ import java.util.ArrayList;
                 chosen.play();
             }
             user.addToWatched(chosen);
-            service.saveSavedMedia(user);
+            service.saveMedia(user);
         }
 
         // ══════════════════════════════════════════════════
@@ -208,7 +208,7 @@ import java.util.ArrayList;
                     } else if (choice == 2) {
                         // Fjern fra listen og opdater filen
                         list.remove(m);
-                        service.saveSavedMedia(user);
+                        service.saveMedia(user);
                         ui.displayMsg(titleChoice + " has been removed");
                     }
                     return;
@@ -227,7 +227,7 @@ import java.util.ArrayList;
 
             if(choice == 1){
                 user.addToSaved(chosen);
-                service.saveSavedMedia(user);
+                service.saveMedia(user);
                 ui.displayMsg(chosen.getTitle() + " has been saved");
 
             }else if (choice == 2){
