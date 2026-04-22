@@ -75,8 +75,8 @@ import Util.TextUI;
             int attempts = 0;
 
             while (attempts < 3) {
-                String username = ui.promptText("Enter your username: ");
-                String password = ui.promptText("Enter your password: ");
+                String username = ui.promptText("\nEnter your username: ");
+                String password = ui.promptText("\nEnter your password: ");
 
                 // Tjek om brugernavn og adgangskode matcher
                 for (User u : service.getUserList()) {
