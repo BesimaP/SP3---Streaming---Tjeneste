@@ -92,9 +92,9 @@ import Util.FileIO;
                     int seasonNumber = Integer.parseInt(seasonData[0].trim());
                     int episodeCount = Integer.parseInt(seasonData[1].trim());
 
-                    Season newSeason = new Season(seasonNumber, year);
+                    Season newSeason = new Season(seasonNumber);
                     for (int i = 1; i <= episodeCount; i++) {
-                        newSeason.addEpisode(new Episode("Episode " + i, i, 0));
+                        newSeason.addEpisode(new Episode("Episode " + i, i, i, i));
                     }
                     series.addSeason(newSeason);
                 }

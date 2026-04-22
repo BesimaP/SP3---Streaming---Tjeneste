@@ -13,10 +13,6 @@ public enum Category {
         this.smiley = smiley;
     }
 
-    public String getSmiley() {
-        return smiley;
-    }
-
     @Override
     public String toString() {
         return name() + " " + smiley;

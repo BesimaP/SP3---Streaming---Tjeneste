@@ -32,20 +32,12 @@ public class User {
         }
     }
 
-    public void removeFromSaved(Media m){
-        saved.remove(m);
-    }
-
     public String getId() {
         return id;
     }
 
     public String getUsername() {
         return username;
-    }
-
-    public void setUserName(String userName) {
-        this.username = username;
     }
 
     public String getPassword() {
@@ -60,18 +52,10 @@ public class User {
         return watched;
     }
 
-    public void setWatched(ArrayList<Media> watched) {
-        this.watched = watched;
-    }
 
     public ArrayList<Media> getSaved() {
         return saved;
     }
-
-    public void setSaved(ArrayList<Media> saved) {
-        this.saved = saved;
-    }
-
 
     @Override
     public String toString() {

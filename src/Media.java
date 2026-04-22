@@ -1,18 +1,16 @@
 import java.util.ArrayList;
 
 public abstract class Media {
-    private String title;
-    private int releaseYear;
-    private double rating;
-    private ArrayList<Category> categories;
-    private String imagePath;
+    protected String title;
+    protected int releaseYear;
+    protected double rating;
+    protected ArrayList<Category> categories;
 
     public Media(String title, int releaseYear, double rating) {
         this.title = title;
         this.releaseYear = releaseYear;
         this.rating = rating;
         this.categories = new ArrayList<>();
-        this.imagePath = "";
     }
 
     public String getTitle(){
@@ -27,9 +25,6 @@ public abstract class Media {
         return rating;
     }
 
-    public String getImagePath(){
-        return imagePath;
-    }
 
     public ArrayList<Category> getCategories() {
         return categories;

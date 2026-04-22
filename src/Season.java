@@ -2,12 +2,10 @@ import java.util.ArrayList;
 
 public class Season {
     private int seasonNumber;
-    private int year;
     private ArrayList<Episode> episodes;
 
-    public Season(int seasonNumber, int year) {
+    public Season(int seasonNumber) {
         this.seasonNumber = seasonNumber;
-        this.year = year;
         this.episodes = new ArrayList<>();
     }
 
