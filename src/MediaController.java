@@ -153,10 +153,9 @@ import java.util.ArrayList;
             } else {
                 // Film → afspil direkte
                 chosen.play();
-
-                user.addToWatched(chosen);
-                service.saveSavedMedia(user);
             }
+            user.addToWatched(chosen);
+            service.saveSavedMedia(user);
         }
 
         // ══════════════════════════════════════════════════
@@ -204,12 +203,12 @@ import java.util.ArrayList;
 
                     if (choice == 1) {
                         // Afspil og tilføj til watched-listen
-                        m.play();
+                        playMedia(m,user);
                         user.addToWatched(m);
                     } else if (choice == 2) {
                         // Fjern fra listen og opdater filen
-                        user.removeFromSaved(m);
-                        service.saveUsers();
+                        list.remove(m);
+                        service.saveSavedMedia(user);
                         ui.displayMsg(titleChoice + " has been removed");
                     }
                     return;
