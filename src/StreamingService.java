@@ -152,6 +152,19 @@ import Util.FileIO;
             FileIO.saveData(data, "data/users.csv", "userID,username,password");
         }
 
+        public void saveWatchMedia(){
+
+        }
+        public void loadSavedMedia(){
+
+        }
+        public void loadWatchMedia(){
+
+        }
+        public void saveSavedMedia(){
+
+        }
+
         // ── Getters ───────────────────────────────────────
 
         public ArrayList<Media> getMediaList() {
