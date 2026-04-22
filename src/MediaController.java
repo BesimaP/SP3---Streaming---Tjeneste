@@ -16,7 +16,7 @@ import java.util.ArrayList;
         // ══════════════════════════════════════════════════
 
         // Søger efter film/serier der indeholder søgeordet i titlen
-        public void searchTitle() {
+        public void searchTitle(User user) {
             String title = ui.promptText("Search title: ");
 
             // Saml alle resultater der matcher søgeordet
@@ -48,12 +48,11 @@ import java.util.ArrayList;
                 return;
             }
 
-            // Afspil den valgte film/serie
-            playMedia(results.get(mediaChoice - 1));
+            playOrSave(results.get(mediaChoice - 1), user);
         }
 
         // Søger efter film/serier inden for en valgt kategori
-        public void searchCategory() {
+        public void searchCategory(User user) {
             // Vis alle kategorier
             ui.displayMsg("\nCategories:");
             ui.displayMsg("1. Crime");
@@ -110,12 +109,12 @@ import java.util.ArrayList;
                 return;
             }
             // Afspil den valgte film/serie
-            playMedia(results.get(mediaChoice - 1));
+            playOrSave(results.get(mediaChoice -1),user);
         }
 
         // Afspiller en film eller serie
         // Hvis det er en serie → vælg sæson og episode først
-        private void playMedia(Media chosen) {
+        private void playMedia(Media chosen, User user) {
             if (chosen instanceof Series) {
                 Series series = (Series) chosen;
                 ArrayList<Season> seasons = series.getSeasons();
@@ -154,6 +153,9 @@ import java.util.ArrayList;
             } else {
                 // Film → afspil direkte
                 chosen.play();
+
+                user.addToWatched(chosen);
+                service.saveSavedMedia(user);
             }
         }
 

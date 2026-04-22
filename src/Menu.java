@@ -41,7 +41,7 @@ import java.util.ArrayList;
 
                 switch (choice) {
                     case "1":
-                        mediaController.searchTitle();
+                        mediaController.searchTitle(user);
                         break;
                     case "2":
                         mediaController.searchCategory(user);
