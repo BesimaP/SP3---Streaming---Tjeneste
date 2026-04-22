@@ -53,7 +53,7 @@ import Util.FileIO;
                 double rating = Double.parseDouble(parts[3].trim().replace(",", "."));
 
                 // Opret film-objekt
-                Movie movie = new Movie(title, year, rating, 0);
+                Movie movie = new Movie(title, year, rating);
 
                 // Tilføj kategorier
                 for (String g : genre.split(",")) {

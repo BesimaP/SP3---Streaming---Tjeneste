@@ -208,7 +208,7 @@ import java.util.ArrayList;
                         user.addToWatched(m);
                     } else if (choice == 2) {
                         // Fjern fra listen og opdater filen
-                        list.remove(m);
+                        user.removeFromSaved(m);
                         service.saveUsers();
                         ui.displayMsg(titleChoice + " has been removed");
                     }

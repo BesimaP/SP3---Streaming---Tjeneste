@@ -32,6 +32,12 @@ public class User {
         }
     }
 
+    public void removeFromSaved(Media m){
+        if (!saved.contains(m)) {
+            saved.remove(m);
+        }
+    }
+
     public String getId() {
         return id;
     }
